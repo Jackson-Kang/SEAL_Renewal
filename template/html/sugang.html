@@ -1,0 +1,266 @@
+{% extends "html/base.html" %}
+
+{% block head %}
+{% load static from staticfiles %}
+{% load app_filter %}
+ 
+<style>
+	.sugang-nav-container
+ 	{
+ 		display:flex;
+		align-items:center;
+		height:100%;
+		width:1366px;
+		border-right:0px;
+
+ 	}
+ 	.sugang-nav-container span:nth-child(1),.sugang-nav-container span:nth-child(3)
+ 	{
+ 		font-size:16px;
+ 		font-weight: bold;
+ 	}
+ 	.sugang-nav-container span
+ 	{
+ 		padding-right:25px;
+ 		align-self:center;
+
+ 	}
+ 	.sugang-header div{
+ 		display:flex;
+ 		width:100%;
+ 		border:1px;
+ 		background-color:white;
+ 		padding:3px;
+ 		height:35px;
+ 		border : gray 1px solid;
+ 		box-shadow: 1px 1px 1px inset;
+ 	}
+
+ 	.sugang-body
+ 	{
+ 		margin-top:15px;
+ 		padding:30px;
+ 	}
+ 	.sugang-item
+ 	{
+
+ 		
+ 		margin:10 0 10 0;
+ 		display:flex;
+ 	}
+ 	.sugang-first
+ 	{
+ 		border:gray 1px solid;
+ 		width:20%;
+ 		font-size:15px;
+ 		font-weight: bold;
+ 		background-color:rgb(156,200,188);
+ 		padding:15px;
+ 	}
+ 	.sugang-second
+ 	{
+ 		border:gray 1px solid;
+ 		width:80%;
+ 		font-size:15px;
+ 		font-weight: bold;
+ 		background-color:white;
+ 		padding:15px;
+ 	}
+ 	.sugang-active{
+ 			background-color:rgb(34,71,64);
+ 			color:white;
+ 		
+ 	}
+
+ 	.sugang-pagenation a
+    {
+    		color:#808080;
+    		display:flex;
+    		padding:0 10 0 10;
+    		align-self: center;
+    		cursor:pointer;
+    }
+</style>
+<script>
+	$(document).ready(function()
+	{
+
+		$("div").on("click",".insert-sugang",function()
+		{
+			event.stopPropagation();
+			$.ajax({ 
+              url : "/SugangInsert/",
+              data : {
+                      'Content':$("#input-sugang").val(),
+                      'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken]").val()
+                    },
+              
+             
+              type : "GET",
+              async : false,
+              beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                //}
+              }
+          	  },
+              
+              success:function(resp){     
+                   location.href="/SugangChange/";
+                    
+               },
+                error: function(xhr, option, error){
+                  alert(xhr.status); //오류코드
+                  alert(error); //오류내용
+
+                } 
+          });
+		})
+		$("div").on("click",".delete",function()
+		{
+			event.stopPropagation();
+			$.ajax({ 
+              url : "/SugangDelete/",
+              data : {
+                      'ID':$(this).attr("id"),
+                      'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken").val()
+                    },
+              
+             
+              type : "POST",
+              async : false,
+              beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                //}
+              }
+          	  },
+              
+              success:function(resp){     
+                   location.href="/SugangChange/";
+                  
+               },
+                error: function(xhr, option, error){
+                  alert(xhr.status); //오류코드
+                  alert(error); //오류내용
+
+                } 
+          });
+		})
+		$('div').on('click',".SPage",function(event){
+		    event.stopPropagation();
+		    $(this).unbind("click");
+		    $.ajax({ 
+		          url : "/SugangPageNation/"+$(this).attr("name"),
+		          data : {
+		                  'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken").val(),
+		                },
+		          datatype:"json",
+		          type : "GET",
+		          async : false,
+		          beforeSend: function(xhr, settings) {
+		              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		              }
+		          },
+		          success:function(resp){     
+		                  $(".sugang-container").html(resp); 
+		            },
+		            error: function(xhr, option, error){
+		              alert(xhr.status); //오류코드
+		              alert(error); //오류내용
+
+		              } 
+         });
+
+    });
+	})
+	
+</script>
+{%endblock%}
+
+{%block nav%}
+<nav>
+	<div class="sugang-nav-container">
+
+			<span>수업 교환 페이지</span>
+			
+	</div>
+</nav>
+{%endblock%}
+
+
+{%block content%}
+
+<div class="sugang-container">
+	<div class="sugang-header">
+	
+			<div>
+				<input id="input-sugang" style="padding-left:10px; border:none; outline:none; width:100%;" type="text" placeholder="본인이 가지고 있는 수업/바꾸고 싶은 수업/연락방법 순으로 적어주세요. 입력한 메모는 삭제만 가능합니다."><button class="btn insert-sugang" style="padding:0 20 0 20 !important; background-color:rgb(0,113,189); height:100%; padding-right:5px; margin-right:20px; color:white;" >입력</button>
+			</div>
+	</div>
+	<div class="sugang-body">
+		<div>
+			<p style="text-align: center;">상대가 가지고 있는 수업/내가 가진 수업/상대방 연락처</p>
+		</div>
+		<div class="sugang-list">
+			<div>
+				{% for Sugang in SugangList %}
+				<div class="sugang-item">
+					<div class="sugang-first">{{Sugang.CreatedID.UserName}}</div>
+					{%if user.username == Sugang.CreatedID.User.username%}
+					<div class="sugang-second sugang-active">{{Sugang.Content}}</div>
+					{%else%}
+					<div class="sugang-second">{{Sugang.Content}}</div>
+					
+					{%endif%}
+					{%if user.username == Sugang.CreatedID.User.username%}
+					<i id="{{Sugang.id}}" style="position:relative; left:-20px;display:flex; align-self: center;" class="delete fa fa-times" aria-hidden="true"></i>
+					{%endif%}
+				</div>
+				{%endfor%}
+			</div>
+			
+		</div>
+	</div>
+	<div class="sugang-footer">
+		{% if is_paginated %}
+			
+			<div class="sugang-pagenation" style="display:flex; justify-content: center;">
+				{%if start_index != 0 %}
+				<a id= "double-prev" class="SPage" name="{{start_index}}" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				{%else%}
+				<a id= "double-prev" class="SPage" name="1" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				{%endif%}
+
+		        {%if page_obj.has_previous%}
+		        <a id= "prev" name="{{page_obj.previous_page_number}}"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+		        {%else%}
+		        <a id= "prev" class="SPage"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+		        {%endif%}
+				{% for i in page_range %}     
+				        	{%if i == page_obj.number %}
+				         	<a style="color:#C1272D;" id ="ProPage"  name ="{{i}}" class="active item SPage" herf="#FirstPage">{{i}}</a>
+				        
+				        	{%else%}
+				        	 <a id ="ProPage" name ="{{i}}" class="item SPage" herf="#FirstPage">{{i}}</a>
+				        	{%endif%}    
+		        {%endfor%}
+		        {%if page_obj.has_next%}
+		        <a id= "next" class="SPage" name="{{page_obj.next_page_number}}"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+				{%else%}
+		        <a id= "next" class="SPage"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%endif%}
+		        {%if max_index > end_index %}
+		        <a id= "double-next" class="SPage" name="{{end_index|Add:1}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%else%}
+		        <a id= "double-next" class="SPage" name="{{max_index}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%endif%}
+		       </div>
+		      {%endif%}
+	</div>
+</div>
+
+
+
+{%endblock%}

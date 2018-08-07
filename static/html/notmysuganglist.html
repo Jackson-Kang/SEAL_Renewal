@@ -1,0 +1,43 @@
+<p>수강 과목 업데이트가 되지 않았습니다. 이 기능을 보시려면 업데이트를 해주세요</p>
+<script>
+		$('form').on("click",'.submit_hisnet',function()
+			{
+	
+			     $.ajax(
+			     	{ url : "/StudentInformationChangeView/",
+			          data : $("#hisnet_form").serialize(),
+			              type : "POST",
+			              success:function(resp){  
+			                  alert("성공하였습니다");
+			                  $(".ui.modal").modal("hide");
+			                   location.reload();
+
+			                  } ,
+			              error: function(xhr, option, error){
+			                  alert('히즈넷 아이디 혹은 비밀번호가 일치 하지 않습니다.'); //오류내용
+			            }
+
+
+			 	});
+
+			})
+
+</script>
+<button id="update_button" class="btn btn-info">UPDATE</button>
+        <div style="width:500px; height:300px;" class="ui long modal scrolling transition">
+            <div class="header"><i class="glyphicon glyphicon-list-alt" style="color:grey"></i>&nbsp;&nbsp;&nbsp;hisnet check</div>
+             <div class="ui segment" style="padding:18px 20px 3px 20px">
+                <form id="hisnet_form" method = "POST">{%csrf_token%}
+                       <label style="display:block;" class="control-label" for="UserID" style="float:left">아이디(Hisnet)</label>
+                      <input type="text" id="UserID" name ="username" class="form-control" placeholder="아이디(Hisnet)">
+                      <label class="control-label" for="password" style="padding-top: 15px; float:left">비밀번호</label>
+                      <input type="password" id="password" name ="password" class="form-control" placeholder="비밀번호">
+                      <br>
+                   <button type="button" style="width:100%;" class="btn btn-info submit_hisnet">check</button>
+                   
+                 
+                </form>
+              <!--여기서부터 column 2개씩 for문. 홀수로 끝나면 위에 column으로 끝나게. (두개 column 패딩이랑 마진 설정 다름!)-->
+            
+               </div>
+            </div>

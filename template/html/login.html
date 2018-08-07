@@ -1,0 +1,114 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% load static from staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/semantic/semantic.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+	
+	<link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+ 
+	<script type="text/javascript" src="{% static 'js/jquery.3.2.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/semantic/semantic.js' %}"></script>
+	<script type="text/javascript" src="{% static 'node_modules/angular/angular.js' %}" ></script>
+	
+	<title>SEAL - Login</title>
+
+	<script>
+	$(document).ready(function(){
+		$("#loginForm").form({
+			on:'submit',
+		    inline : true,
+			fields:{
+				id:{
+					identifier:'username',
+					rules:[
+						{
+							type : 'empty',
+							prompt : '아이디 입력을 하지 않았습니다.'
+						},
+						{
+							type : 'regExp[^[a-zA-Zㄱ-힣0-9|s]*$]',
+							prompt : "한글, 알파벳, 숫자만 입력 가능합니다."
+						},
+						
+					]
+				},
+				password:{
+					identifier:'password',
+					rules:[
+						{
+							type : 'empty',
+							prompt : '비밀번호를 입력하지 않았습니다.'
+						}
+					]
+				}
+			}
+		})
+	})
+		
+
+	</script>
+</head>
+
+
+<body>
+<header>
+	<div class="head-container">
+		<div id = "logobox">
+			<div>
+				<p><a href="/">SEAL</a></p>
+			</div>
+			<div>
+				<p>한동대학교</p>
+				<p>강의평가 시스템</p>
+			</div>
+		</div>
+		<form id="loginForm" name="loginForm" method ="POST" >
+			{%csrf_token%}
+
+			<input type="hidden" name="rtnURL" value="http://seal.handong.edu/">
+			<div id="loginbox">
+				<label class="form-group field">
+					<span>Hisnet ID</span>
+					{{form.username.errors}}
+					{{form.username}}
+				</label>
+				<label class="form-group field">
+					<span>Hisnet Password</span>
+					{{form.password.errors}}
+					{{form.password}}
+					
+				</label>
+				<label class="form-group">
+					<span>&nbsp;</span>
+					<button id="login-button" class="btn">로그인</button>
+				</label>
+			</div>
+		</form>
+	</div>
+</header>
+<nav>
+	
+</nav>
+<section>
+	<div id="main-notice">
+		<div style="width:500px; margin-bottom:5px;">SEAL은 한동대학교 학생들의</div>
+		<div style="width:400px; margin-bottom:5px;">학업성취도 향상을 위한</div>
+		<div style="width:650px; margin-bottom:5px;">강의평가 및 강의정보 열람 서비스입니다.</div>
+	</div>
+</section>
+<footer>
+	
+
+</footer>	
+
+
+</body>
+
+
+
+</html>

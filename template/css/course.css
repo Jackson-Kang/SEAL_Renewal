@@ -1,0 +1,213 @@
+main{
+		margin-top:3px;
+	}
+.course-nav-container
+{
+	display:flex;
+
+	align-items:center;
+	height:100%;
+	width:1366px;
+}
+.course-nav-container span:nth-child(1),.course-nav-container span:nth-child(3)
+{
+	font-size:16px;
+	font-weight: bold;
+}
+.course-nav-container span
+{
+	padding-right:25px;
+	align-self:center;
+
+}
+.course-evaluation-container
+{
+	display:flex;
+	flex-direction: column;
+}
+.course-evaluation-container>div
+{
+	display:flex;
+
+}	
+.c-e-header
+{
+	display:flex;
+	align-items: center;
+}
+.c-e-header p
+{
+	padding:5 10 5 10;
+}
+
+.c-e-body
+{
+	display:flex;
+	flex-direction: column;
+	background-color:white;
+	
+}
+.c-e-body>div
+{
+	display:flex;
+
+}
+.body-first, .body-second, .body-third,
+.body-first>div, .body-second>div, .body-third>div
+{
+	padding:10px;
+}
+.body-first>div>p:first-child, .body-second>div>div:first-child>p:first-child, .body-third>div>p:first-child
+{
+	padding-right:15px;
+	font-weight: bold;
+}
+.body-first{
+	width:80%;	
+}
+.body-first >div
+{
+	width:32%;
+	display:flex; 
+	align-items: center;
+}
+.body-second >div
+{
+	width:48%;
+	display:flex; 
+	align-items: center;
+}
+.body-third> div
+{
+	width:100%;
+	display:flex; 
+	align-items: center;
+}
+.c-e-body p,.c-e-body span
+{
+	margin:0px;
+}
+.exam-method, .course-method
+{
+	padding:10px;
+}
+.method-active
+{
+	background-color:rgb(159,95,95);
+	color:white;
+}
+@media ( min-width: 1367px )
+{.single-course-evaluation-container
+{
+	width:1366px;
+	padding-left:25px;
+	padding-right:70px;
+}
+}
+@media ( max-width: 1366px )
+{
+	.single-course-evaluation-container
+	{
+		width:100%;
+		padding-left:25px;
+		padding-right:70px;
+	}
+}
+.single-course-evaluation-container p
+{
+	margin:0px;
+}
+
+.s-c-e-body
+{
+	display:flex;
+	flex-direction: column;
+}
+
+.s-c-e-body-divide
+{
+	display: flex;
+}
+.s-c-e-items
+{
+	width:49%;
+	margin:15 15 15 0;
+
+}
+.s-c-e-i-hedaer
+{
+	padding: 5 0 5 0;
+}
+.s-c-e-i-body{
+		
+		box-shadow: gray 1px 1px 1px 1px;
+		background-color: white;
+		display:flex;
+		flex-direction: column;
+		padding:20px;
+}
+.s-c-e-i-body>div
+{
+	display:flex;
+
+}
+.s-c-e-i-content
+{
+	display:flex;
+	padding:10 0 10 0;
+	align-items: center;
+}
+.s-c-e-i-content>div
+{
+	display:flex;
+	align-items: center;
+
+}
+.s-c-e-i-content .content-name{
+	padding-right:20px;
+	font-weight:bold;
+}
+.hidden-comment
+{
+	display: none;
+}
+.open-comment
+{
+	cursor:pointer;
+}
+
+.open-comment>p, .close-comment>p
+{
+	text-align: center;
+}
+.jubo
+{
+	display:flex;
+	flex-direction: column;
+	width:100%;
+	margin:10px;
+	padding:0px !important;
+	border:1px gray solid;
+}
+.jubo-row
+{
+	display:flex;
+	width:100%;
+	border-bottom:1px gray solid;
+}
+
+.jubo-row:last-of-type{
+	border-bottom:0px;
+}
+.course-page
+{
+padding:0 15 0 15;
+}
+.course-pagenation a
+{
+color:#808080;
+display:flex;
+padding:0 10 0 10;
+align-self: center;
+cursor:pointer;
+}

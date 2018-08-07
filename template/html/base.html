@@ -1,0 +1,210 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	{% load static from staticfiles %}
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/bootstrap.css' %}">
+	
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic/semantic.css' %}" />
+	<link href="{% static 'css/easyautocomplete.css' %}" rel='stylesheet' type='text/css'>
+	<link href="{% static 'css/easyautocomplete-theme.css' %}" rel='stylesheet' type='text/css'>
+ 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+
+    <script type="text/javascript" src="{% static 'js/jquery.3.2.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'node_modules/angular/angular.js' %}" ></script>
+	<script type="text/javascript" src="{% static 'js/semantic/semantic.js' %}"></script>
+	
+ 	<script type="text/javascript" src="{% static 'js/easyautocomplete.js' %}"></script>
+
+	<script src="https://use.fontawesome.com/bb431e8a94.js"></script>
+
+ 	<script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+ 	<script type="text/javascript" src="{% static 'js/star.js' %}"></script>
+ 	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-73113207-1');
+	</script>
+
+	{% block head %}
+     
+    {% endblock%}
+   	<title> {% block title %} SEAL - Login {% endblock %}</title>
+   	<link rel="shortcut icon" href="{% static "css/seal_title.png" %}">
+   	<style>
+   		header{
+	height:150px;	
+}
+
+
+#profile-container
+{
+	width:200px;
+	box-shadow: 1px 1px 1px;
+}
+   	</style>
+   	<script>
+   		$(document).ready(function()
+   		{	
+   		
+   			  $('div').on("click", "#update_button", function () {
+				    $(".ui.modal").modal("setting", {
+				        closable: true,
+				        onApprove: function () {
+				            return false;
+				        }
+				    }).modal("show");
+				}).on("click", ".ui.button", function () {
+				    switch ($(this).data("value")) {
+				        case 'close':
+				            $(".ui.modal").modal("hide");
+				            break;
+				    }
+				});
+   			$("div").on("click",".item-search",function()
+   			{
+   				event.stopPropagation();
+   				$("[name=search]").val($(this).text())
+				$("#eac-container-search-box").css("display","none")
+   			})
+   			$(".all_course").dropdown();
+   			var options = {
+			  url: function(phrase) {
+			    return "/AutoSearch/";
+			  },
+			  getValue: function(element) {
+			    return element.CourseName;
+			  },
+			  list: {	
+			    match: {
+					enabled: true
+				},
+				maxNumberOfElements: 8
+			  },
+			  ajaxSettings:{
+			  	dataType: "json",
+			    method: "GET",
+			 	data:{
+			 	}
+			   
+			  },
+			  preparePostData: function(data) {
+			  
+			    data.phrase = $("#search").val();
+			    data.csrfmiddlewaretoken=$("[name=csrfmiddlewaretoken]").val();
+			    return data;
+			  },
+			  template: {
+				type: "custom",
+				method: function(value, item) {
+					return "<div style='display:flex; padding:3 0 3 0;'><p class='item-search' style='width:50%; margin:0px;'>" + value+ "</p></div>"
+				}
+
+			  },
+			  
+			  requestDelay: 500
+			  
+		};
+
+		$("#search-box").easyAutocomplete(options);
+
+   		})
+   		
+   	</script>
+</head>
+
+
+<body> 
+<header>
+	<div class="head-container">
+			<div id = "logobox">
+				<div>
+					<p><a href="/">SEAL</a></p>
+				</div>
+				<div>
+					<p>한동대학교</p>
+					<p>강의평가 시스템</p>
+				</div>
+			</div>
+			<form id="searchForm" name="searchForm"  action="/Search/" method="GET">
+				{%csrf_token%}
+				<div id="search-box">
+					<input type="text" id="search" name="search" placeholder="수업명이나 교수님명을 입력하세요">
+					<i id="course-search" class="fa fa-search" aria-hidden="true"></i>
+				</div>
+			</form>
+			<div class="head-list" >
+				<ul>
+					<li>Notice</a></li>
+					<li>HELP</li>
+					<li><a style="color:rgb(191,169,166);" href="/Logout">Logout</a></li>
+				</ul>
+			</div>
+	</div>
+	
+	
+</header>
+{% block nav %}
+{% endblock %}
+<main style="padding-top:30px;">
+<article>
+<section >
+{% block content %} 
+
+{% endblock %}
+</section>
+{% if not user == None%}
+
+<aside>
+	<div id="profile-container"> 
+		<div id="profile">
+			<div class= "name-place profile-top">
+				<div id="user-name"><p>{{user.profile.UserName}}
+				<button id="user-edit" class="btn"><a href="/MyPage"><span >Edit</span></a></button></p></div>
+				<div id="user-major">{{user.profile.FirstMajor}}</div>
+				
+			</div>
+
+			<div class="ui divider" style="margin-right:10px"></div>
+			<div class="profile-bottom">
+				<div class="course-seal"><span>My SEAL</span> <span><span>{{user.profile.RecommendCount}}</span> 개</span></div>
+				<div><a href="/Recommend"><button class="course-recommend"><span id="btntext">강의 평가하러가기</span></button></a></div>
+			</div>
+		</div>
+		<div class ="profile-url">
+			<!--<p><span><img style="width:15px; height:15px;" src="{% static 'assets/icon/book.png' %}"></span> <span style="padding-left:20px;">수강편람 보기</span></p>-->
+			<p><span><img style="width:15px; height:15px;" src="{% static 'assets/icon/cross.png' %}"></span> <span style="padding-left:20px;"><a href="/SugangChange/">수업교환페이지</a></span></p>
+		</div>
+		
+    </div>
+</aside>
+
+</article>
+{% block bottom %}
+{% endblock %}
+</main>
+<footer style="display:flex; justify-content: space-around;">
+	<div style="width:100%; text-align: center;">
+		한동대학교 강의평가 시스템 SEAL
+	</div>
+	<div style="width:100%; text-align: center;">
+		디자이너 - 이선혜 개발 - powerd by CRA
+	</div>
+	<div style="width:100%; text-align: center;">
+		페이지 리뉴얼 - 2017/12/09
+	</div>
+
+</footer>	
+{%endif%}
+
+</body>
+
+
+
+</html>

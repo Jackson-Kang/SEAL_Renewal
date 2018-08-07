@@ -1,0 +1,59 @@
+#registercontainer{
+	border: 2px solid;
+	border-radius: 25px;
+	border-color: #87cefa;
+	display: flex;
+}
+
+.box{
+	float: left;
+}
+
+#mycontent-left{
+	padding-left: 6%;
+	padding-top: 10%;
+	padding-right: 10%;
+	padding-bottom: 10%;
+	border-right: 1px solid #87cefa;
+	height: 100%;
+	text-align: center;
+}
+
+.title1{
+	font-family: 'Fredoka One', cursive;
+	color: #87cefa;
+	font-size: 64px;
+
+}
+
+.title2{
+	font-family: 'Fredoka One', cursive;
+	color: #87cefa;
+	font-size: 40px;
+
+}
+
+#mycontent-right{
+	padding-left: 12%;
+	padding-top: 10%;
+	padding-right: 5%;
+	padding-bottom: 5%;
+}
+
+label{
+	color: #87cefa;
+}
+
+.detail{
+	font-size: 16px;
+	color: #87cefa;
+	font-weight: bold;
+}
+
+.detail2{
+	font-size: 12px;
+}
+
+a{
+	font-size: 11px;
+}

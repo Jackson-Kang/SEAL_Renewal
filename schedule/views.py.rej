@@ -1,0 +1,9 @@
+diff a/mysite2/schedule/views.py b/mysite2/schedule/views.py	(rejected hunks)
+@@ -26,7 +26,6 @@
+ 		start = 6 * (cur_page-1)
+ 		end = 6 * cur_page
+ 		cur_semester = '14-2'	# 데이터가 많으므로 현재 학기만 가져오도록 한다.
+-			lec_lst = Lecture.objects.filter(Semester=cur_semester, Period__contains=period).exclude(Period__contains='10')[start:end]
+ 		if not period[1:3].isdigit():	# 1교시의 경우 10교시가 같이 나오는 것을 방지하기 위한 장치
+ 			lec_cnt = Lecture.objects.filter(Semester=cur_semester, Period__contains=period[:-1]).exclude(Period__contains='10').count()
+ 			lec_lst = Lecture.objects.filter(Semester=cur_semester, Period__contains=period[:-1]).exclude(Period__contains='10')[start:end]

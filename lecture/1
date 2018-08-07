@@ -1,0 +1,23 @@
+# -*- coding: utf-8 -*-
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+import xlrd
+# Create your views here.
+
+def lec_update(request):
+	file_location = "/opt/bitnami/apps/django/django_projects/mysite2/gasul_table/gasul.xlsx"
+	workbook = xlrd.open_workbook(file_location)
+	sheet = workbook.sheet_by_index(0)
+	lec_lst = []
+	for row in range(3, sheet.nrows, 4):
+		lec_info = []
+		for col in range(sheet.ncols):
+			lec_info.append(sheet.cell_value(row,col))
+		lec_lst.append(lec_info)
+	for var in lec_lst:
+		# try:
+		new_lec = Lecture(Category=var[0],Code=var[1],CourseName=var[3],Credit=var[4])
+			# new_lec.save()
+		# except:
+			# return HttpResponse('데이터 입력 중 오류가 발생했습니다.')
+	return HttpResponse('성공적으로 데이터를 입력했습니다.')

@@ -1,0 +1,175 @@
+{% extends "html/base.html" %}
+
+{% block head %}
+{% load static from staticfiles %}
+{% load app_filter %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/recommend.css' %}" />
+ <script type="text/javascript" src="{% static 'js/recommend.js' %}"></script>
+ <title>SEAL</title>
+
+ <script>
+	
+ </script>
+{%endblock%}
+{% block nav %}
+
+<nav>
+	<div class="recommend-nav-container">
+
+			<span>강의 평가 작성</span>
+			
+	</div>
+</nav>
+{% endblock %}
+
+{%block content%}
+
+<form id="RecommendForm" method ="POST" enctype="multipart/form-data" action="/RecommendWrite">
+{%csrf_token%}
+<div class="recommend-evaluation-container">
+		<div class= "c-e-hedaer">
+			<div class="c-e-search-box">
+				<input id ='recommend-course-search' type="text" placeholder="" onkeypress="return event.keyCode != 13;">
+				
+				<div class="search-item-list"></div>
+				<div class="field" style="width:100px;">
+				<input type="hidden" id="Professor" name="Professor" value="">
+				</div>
+				<input type="hidden" id="CourseName" name="CourseName" value="">
+				<input type="hidden" id="Code" name="Code" value="">
+			</div>
+			<div>
+				<div style="padding:0px;" class="select-box"> 
+			      	<div class="ui small form">
+			            <div class="ui selection dropdown all_course">
+			              <div class="default text">학기</div>
+			              <i class="dropdown icon"></i>
+			              
+			              <div class="menu">
+			              
+			              </div>
+			            </div>
+			      	</div>
+		    	</div>
+		    	<div class="field" style="width:100px; margin:0px;">
+			        <input id="Semester"  name="Semester" type="hidden" value onkeypress="return event.keyCode != 13;">
+				</div>
+			</div>
+
+		</div>
+		<div class= "c-e-body">
+			<div class="body-content">
+				<div>
+					<p  class="content-name">평점</p>
+					<div>
+						<div class="stars">
+							<input class="star star-1" id="star-1" type="radio" name="star"/>
+			                <label class="star star-1" for="star-1"></label>
+			                <input class="star star-2" id="star-2" type="radio" name="star"/>
+			                <label class="star star-2" for="star-2"></label>
+			                <input class="star star-3" id="star-3" type="radio" name="star"/>
+			                <label class="star star-3" for="star-3"></label>
+			           
+			                <input class="star star-4" id="star-4" type="radio" name="star"/>
+			                <label class="star star-4" for="star-4"></label>
+			                <input class="star star-5" id="star-5" type="radio" name="star"/>
+			                <label class="star star-5" for="star-5"></label>
+			                
+			                
+			            </div>
+			            <input type="hidden" id = "StarValue" name = "StarValue" value = "0">
+					</div>
+				</div>
+				<div>
+					<p class="content-name">과제량</p>
+					<p class="homework-count img-top">
+						
+						<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
+						<input name="homework-count" type="hidden"  value="9">
+					</p>
+					<div style="position:relative; width:0px; top:30px; left:-40px; font-size:7px; color:rgb(156,193,170);"><p style="width:130px;">클릭하여 상중하를 바꿉니다.</p></div>
+				</div>
+				<div>
+					<p style="padding-right:15px;">난이도</p>
+					<p class="level-diff img-top">
+						<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
+						<input name="level-diff" type="hidden"  value="9">
+				
+					</p>
+				</div>
+			</div>
+			<div class="body-content" style="display:flex;">
+				<div>
+					<div class="body-table-name" >
+						<p class="content-name">시험방식</p>
+					</div>
+					<div class="body-table-content" >
+						
+						<p class="exam-method" value="1000">단답형</p>
+						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="0" >
+						<p class="exam-method" value="100">서술형</p>
+						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="0">
+						<p class="exam-method" value="10">혼합형</p>
+						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="0">
+						<p class="exam-method" value="1">해당없음</p>
+						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="0">
+						
+					</div>
+				</div>
+				<div>
+					<div class="body-table-name" style="padding-left:20px;">
+						<p class="content-name">수업방식</p>
+					</div>
+					<div class="body-table-content">
+						<p class="course-method" value="100">PPT</p>
+						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="0">
+						<p class="course-method" value="10">교재</p>
+						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="0">
+						<p class="course-method" value="1">실습</p>
+						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="0">
+					</div>
+				</div>
+			</div>
+
+			<div class="body-content" style="display:flex; align-items: center;">
+				<input  type="hidden" name="MAX_FILE_SIZE" value="30000" />
+				<div style="width:50px;">
+					<p class="content-name">첨부</p>
+					<input style="display:none;" type="file" id="input-file" name="upload_file[]" multiple>
+				</div>
+				<button type="button" class="btn" style="font-size:8px; width:80px;  height:30px;"
+				 id="file-input">찾아보기</button>
+				<div class="jubo" style="width:70%;">
+					
+				</div>
+			</div>
+		</div>
+
+		<div class= "c-e-footer" style="display:flex;flex-direction: column; margin:30 0 0 0;">
+			<div style="padding:0 0 10 0; display:flex; align-items: center; ">
+				<p style="font-size:20px; font-weight:bold; margin:0px;">상세평가</p>
+				<div class="ui divider" style="width:90%;"></div>
+			</div>
+			<div>
+				<div class="text-area-information" style="height:180px;background-color:rgb(92,154,114); 	margin:10 0 10 0;">
+					<p>1. 교수님의 강의 방식</p>
+					<p>2. 과제, 퀴즈, 시험, 팀 프로젝트 빈도</p>
+					<p>3. 본인이 체감하는 난이도</p>
+					<p>4. 추천하고 싶은 대상 (ex. 전공 새내기, 막학기, 군 복학생)</p>
+					<p>5. 그 외의 기타 의견 자유롭게 작성해 주세요:)</p>
+				</div>
+				<div class="text-area">
+					<div class="ui form">
+					  <div class="field">
+					    <textarea name="CourseComment" style="resize:none; z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background: white !important;" placeholder="상세평가를 적어주세요"></textarea>
+					  </div>
+					  
+					</div>
+				</div>
+			</div>
+		</div>
+		<center><button  class="btn" style="width:150px; height:30px;margin:30 0 30 0; border-radius: 30px; background-color:rgb(92,154,114);" value="완료">완료</button></center>
+	</div>
+
+</form>
+{%endblock%}

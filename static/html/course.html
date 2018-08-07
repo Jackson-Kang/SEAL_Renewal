@@ -1,0 +1,312 @@
+{% extends "html/base.html" %}
+
+{% block head %}
+{% load static from staticfiles %}
+{% load app_filter %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/course.css' %}" />
+  <script type="text/javascript" src="{% static 'js/course.js' %}"></script>
+ <title>SEAL</title>
+
+{% endblock %}
+{% block nav %}
+
+<nav>
+	<div class="course-nav-container">
+
+			<span>강의정보</span>
+			<span>{{CourseBoard.Course.Code}}</span>
+			<span>{{CourseBoard.Course.CourseName}}</span>
+			<span>{{CourseBoard.Course.Professor}}</span>
+	
+	</div>
+</nav>
+{% endblock %}
+
+
+{% block content %}  
+	<div class="course-evaluation-container">
+		<div class= "c-e-header">
+			<p style="font-size:20px; font-weight:bold; margin:0px;">평균</p><p style="color:rgb(157,198,224);" >{{CourseBoard.Total_Count}}개의 평가</p>
+		</div>
+		<div class= "c-e-body">
+			<div class="body-first">
+				<div>
+					<p class="body-name">평점</p>
+					<p><span id="starpoint" class="starvalue">{{CourseBoard.Total_StarPoint|calculateTotal:CourseBoard.Total_Count}}</span></p>
+				</div>
+				<div>
+					<p>과제량</p>
+					<p>
+						{%if CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 10 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count > 7 %}
+						<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
+						{%elif CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 7 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count > 3 %}
+						<img style="width:30px; height:30px;" src="{% static 'assets/icon/mid.png' %}">
+						{%elif CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 3 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count >= 0 %}
+						<img style="width:30px; height:30px;" src="{% static 'assets/icon/bottom.png' %}">
+						{%endif%}
+					</p>
+				</div>
+				<div>
+					<p>난이도</p>
+					<p>
+						{%if CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 10 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count > 7  %}
+						<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
+						{%elif CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 7 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count > 3 %}
+						<img style="width:30px; height:30px;" src="{% static 'assets/icon/mid.png' %}">
+						{%elif CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 3 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count >= 0 %}
+						<img style="width:30px; height:30px;" src="{% static 'assets/icon/bottom.png' %}">
+						{%endif%}
+					</p>
+				</div>
+			</div>
+			<div class="body-second" style="display:flex;">
+				<div>
+					<div>
+						<p class="body-name">시험방식</p>
+					</div>
+					<div style="display:flex;">
+						 {% if CourseBoard.Total_Mix >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Mix >= CourseBoard.Total_Long_Answer and CourseBoard.Total_Mix >= CourseBoard.Total_Unknown_Answer %}
+						<p class="exam-method">단답형</p>
+						<p class="exam-method">서술형</p>
+						<p class="exam-method method-active">혼합형</p>
+						<p class="exam-method">해당없음</p>
+						{% elif CourseBoard.Total_Short_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Short_Answer >= CourseBoard.Total_Long_Answer and CourseBoard.Total_Short_Answer >= CourseBoard.Total_Unknown_Answer%}
+						<p class="exam-method  method-active">단답형</p>
+						<p class="exam-method">서술형</p>
+						<p class="exam-method">혼합형</p>
+						<p class="exam-method">해당없음</p>
+						{% elif CourseBoard.Total_Long_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Long_Answer >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Long_Answer >= CourseBoard.Total_Unknown_Answer %}
+						<p class="exam-method">단답형</p>
+						<p class="exam-method method-active">서술형</p>
+						<p class="exam-method">혼합형</p>
+						<p class="exam-method">해당없음</p>
+						{% elif CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Long_Answer%}
+						<p class="exam-method">단답형</p>
+						<p class="exam-method">서술형</p>
+						<p class="exam-method method-active">혼합형</p>
+						<p class="exam-method">해당없음</p>
+						{%endif%}
+					</div>
+				</div>
+				<div >
+					<div>
+						<p class="body-name">수업방식</p>
+					</div>
+					<div style="display:flex;">
+						{% if CourseBoard.Total_Ppt_Like >= CourseBoard.Total_Book_Like and CourseBoard.Total_Ppt_Like >= CourseBoard.Total_Practice_Like %}
+
+						<p class="course-method method-active">PPT</p>
+						<p class="course-method">교재</p>
+						<p class="course-method">실습</p>
+						{% elif CourseBoard.Total_Book_Like >= CourseBoard.Total_Ppt_Like and CourseBoard.Total_Book_Like >= CourseBoard.Total_Practice_Like %}
+						
+						<p class="course-method">PPT</p>
+						<p class="course-method method-active">교재</p>
+						<p class="course-method">실습</p>
+						{% elif CourseBoard.Total_Practice_Like >= CourseBoard.Total_Ppt_Like and CourseBoard.Total_Practice >= CourseBoard.Total_Book_Like %}
+						<p class="course-method">PPT</p>
+						<p class="course-method">교재</p>
+						<p class="course-method method-active">실습</p>
+						{%endif%}
+					</div>
+				</div>
+			</div>
+			<div class="body-third" style="display:flex;">
+				<div style="width:30%;"><p class="body-name">참고자료</p></div>
+				<div class="jubo">
+					{% for file in UploadFiles %}
+					<div class="jubo-row">
+					<div class="jubo-item">
+						<a style="color:black;" href="/download/?filename={{file.id}}"><i  class="fa fa-download" aria-hidden="true"></i>{{file.upload_file|filename}}</a>
+					</div>
+					</div>
+					{%endfor%}
+					
+				</div>
+			</div>
+		</div>
+		<div class= "c-e-footer">
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block bottom %}
+<div class="single-course-evaluation-container">
+	<div class="s-c-e-header">
+		<p style="font-size:25px;">개인 평가</p>
+	</div>
+	<div class="ui divider"></div>
+	<div class="s-c-e-body">
+	{% if OtherCourseBoard %}
+	{% for Board in OtherCourseBoard %}
+	{% if forloop.counter0|divisibleby:"2" %}
+	<div class="s-c-e-body-divide">
+	{% endif %}	
+		<div class="s-c-e-items">
+			<div class= "s-c-e-i-hedaer">
+				<p><span style="font-size:20px; color:rgb(164,185,182);">{{Board.CreatedID.UserName}}</span><span style="color:rgb(164,185,182);">님의 평가</span></p>
+			</div>
+			<div class= "s-c-e-i-body">
+				<div class="s-c-e-i-content" >
+					<div style="display:flex; padding-right:20px;">
+						<p class="content-name">평점</p>
+						<p style="padding-left:20px;"><span id="starpoint" class="starvalue">{{Board.StarPoint}}</span></p>
+					</div>
+					<!--<div><p class="content-name">Recommend To</p><p></p></div>-->
+					
+				</div>
+				<div class="s-c-e-i-content">
+					<div style="display:flex; padding-right:50px;">
+						<p class="content-name">과제량</p>
+						{% if Board.Homework <= 10	  and Board.Homework > 6 %}
+						<p><img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}"></p>
+						{% elif Board.Homework <= 6 and Board.Homework > 3 %}
+						<p><img style="width:30px; height:30px;" src="{% static 'assets/icon/mid.png' %}"></p>
+						{% elif Board.Homework <= 3 or Board.Homework >= 0 %}
+						<p><img style="width:30px; height:30px;" src="{% static 'assets/icon/bottom.png' %}"></p>
+						{% else %}
+						<p><img style="width:30px; height:30px;" src="{% static 'assets/icon/bottom.png' %}"></p>
+						{% endif %}
+					</div>
+					<div style="display:flex; padding-right:50px;">
+
+						{% if Board.Level_Difficulty <= 10 and Board.Level_Difficulty > 6 %}
+						<p class="content-name">난이도</p><p><img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}"></p>
+						{% elif Board.Level_Difficulty <= 6 and Board.Level_Difficulty > 3 %}
+						<p style="padding-right:30px;">난이도</p><p><img style="width:30px; height:30px;" src="{% static 'assets/icon/mid.png' %}"></p>
+						{% elif Board.Level_Difficulty <= 3 and Board.Level_Difficulty >= 0 %}
+						<p style="padding-right:30px;">난이도</p><p><img style="width:30px; height:30px;" src="{% static 'assets/icon/bottom.png' %}"></p>
+						{%else%}
+						<p><img style="width:30px; height:30px;" src="{% static 'assets/icon/bottom.png' %}"></p>
+						{%endif%}
+					</div>
+				</div>
+				<div class="ui divider"></div>
+	
+				<div class="s-c-e-i-content">
+					<div>
+						<p class="content-name">시험방식</p>
+					</div>
+					<div style="display:flex">
+					{% if Board.What_Answer|calculateData:100 == 1 %}
+						<p class="exam-method method-active">단답형</p>
+					{% else %}
+						<p class="exam-method">단답형</p>
+					{%endif%}
+					{% if Board.What_Answer|calculateData:1000 == 1 %}
+						<p class="exam-method method-active">서술형</p>
+					{%else%}
+						<p class="exam-method">서술형</p>
+					{%endif%}
+	
+					{% if Board.What_Answer|calculateData:10 == 1 %}
+						<p class="exam-method method-active">혼합형</p>
+					{%else%}
+						<p class="exam-method">혼합형</p>
+					{%endif%}
+					{% if Board.What_Answer|calculateData:1 == 1 %}
+						<p class="exam-method method-active" >해당없음</p>
+					
+					{%else%}
+						<p class="exam-method" >해당없음</p>
+					{%endif%}
+					</div>
+				</div>
+				<div class="s-c-e-i-content">
+					<div>
+						<p class="content-name">수업방식</p>
+					</div>
+					<div style="display:flex; ">
+
+					{% if Board.Course_Answer|calculateData:10 == 1%}
+						<p class="exam-method method-active">PPT</p>
+					{%else%}
+						<p class="exam-method">PPT</p>
+					{%endif%}
+					{% if Board.Course_Answer|calculateData:100 == 1%}
+						<p class="exam-method method-active">교재</p>
+					{%else%}
+						<p class="exam-method">교재</p>
+					{%endif%}
+					{% if Board.Course_Answer|calculateData:1 == 1%}
+						<p class="exam-method method-active">실습</p>
+					{%else%}
+						<p class="exam-method">실습</p>
+					{%endif%}
+					
+					</div>
+				</div>
+				<div class="s-c-e-i-content">
+					<div>
+						<p style="width:80px;" class="content-name">첨부파일</p>
+					</div>
+					<div class="jubo">
+						
+					</div>
+				</div>
+				<div style="display:flex; flex-direction: column;">
+					<div class="hidden-comment">
+						<div>
+							<p>상세평가</p><div class="ui divider"></div>
+						</div>
+						<div class="data-comment">{{Board.CourseComment|linebreaks}}</div>
+					</div>
+					<div class="open-comment"><center>상세 더보기</center></div>
+				</div>
+			</div>
+			<div class= "s-c-e-i-footer">
+			</div>
+		</div>		
+	{%if forloop.counter|divisibleby:"2" %}	
+	</div>
+	{%endif%}	
+	{%endfor%}
+	{%else%}
+	<div class="not-course" style="display:flex; justify-content: center;align-items: center; flex-direction: column;">
+		<p style="font-size:100px; color:red;">!</p>
+		<p style="font-size:20px; color:rgb(170,170,170); padding-bottom:20px;">아직 평가가 없습니다.</p>
+		<div><a href="/Recommend"><button class="course-recommend"><span style="" id="btntext">강의 평가하러가기</span></button></a></div>
+	</div>
+	{%endif%}
+
+	</div>
+	{% if is_paginated %}
+			
+			<div class="course-pagenation" style="display:flex; justify-content: center;">
+				{%if start_index != 0 %}
+				<a id= "double-prev" class="Page" name="{{start_index}}" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				{%else%}
+				<a id= "double-prev"  name="1" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				{%endif%}
+
+		        {%if page_obj.has_previous%}
+		        <a id= "prev" class="Page" name="{{page_obj.previous_page_number}}"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+		        {%else%}
+		        <a id= "prev"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+		        {%endif%}
+				{% for i in page_range %}     
+				        	{%if i == page_obj.number %}
+				         	<a style="color:#C1272D;" id ="ProPage"  name ="{{i}}" class="active item SPage" herf="#FirstPage">{{i}}</a>
+				        
+				        	{%else%}
+				        	 <a id ="ProPage" name ="{{i}}" class="item Page" herf="#FirstPage">{{i}}</a>
+				        	{%endif%}    
+		        {%endfor%}
+		        {%if page_obj.has_next%}
+		        <a id= "next" class="Page" name="{{page_obj.next_page_number}}"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+				{%else%}
+		        <a id= "next" class="Page"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%endif%}
+		        {%if max_index > end_index %}
+		        <a id= "double-next" class="Page" name="{{end_index|Add:1}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%else%}
+		        <a id= "double-next" class="Page" name="{{max_index}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%endif%}
+		       </div>
+		      {%endif%}
+		
+	
+
+</div>
+{% endblock %}

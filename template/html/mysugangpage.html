@@ -1,0 +1,91 @@
+	{% load static from staticfiles %}
+	{% load app_filter %}
+	
+	<div class="course-list">
+
+				{% for PBoard1 in MyLecture%}
+				
+					<div><img style="position:relative; z-index:1; top:30px;  left:-10px; width:30px;height:40px;" src="{% static 'assets/icon/medal.png' %}">
+					<img style="position:relative; width:100px;height:10px; top:25px;left:-20px;" src="{% static 'assets/icon/line.png' %}"></div>
+					
+					<div class="course-item" link="/Course/{{PBoard1.id}}">
+						<div class="course-count">
+							<div>
+								<span>평가</span>
+								<span style="color:rgb(108,163,129)">{{PBoard1.Total_Count}}</span>
+							</div>
+						</div>
+						<div class="course-name">
+							<span>{{PBoard1.Course.CourseName}}</span>
+						</div>
+						<div class="course-professor">
+							<span>{{PBoard1.Course.Code}}</span>
+							<span>{{PBoard1.Course.Professor|ChangeName}}</span>
+						</div>
+						<div class="course-homework">
+							{% if PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 10 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count >= 7 %}
+				              <span>과제량</span><span class="eval-token"><img src="{% static 'assets/icon/top.png' %}"></span>
+				              {% elif PBoard1.Total_Homework|calculateTotal:PBoard.Total_Count <= 7 and PBoard1.Total_Homework|calculateTotal:PBoard.Total_Count >= 4 %}
+				              <span>과제량</span><span class="eval-token"><img src="{% static 'assets/icon/mid.png' %}"></span>
+				              
+				              {% elif PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 4 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count >= 0 %}
+				              <span>과제량</span><span class="eval-token"><img src="{% static 'assets/icon/bottom.png' %}"></span>
+				              {%else%}
+				              <span>과제량</span><span class="eval-token"><img src="{% static 'assets/icon/top.png' %}"></span>
+				              {%endif%}
+						</div>
+						<div class="course-difficulty">
+							{%if PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 10 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count  >= 7 %}
+				              <span>난이도</span><span class="eval-token"><img src="{% static 'assets/icon/top.png' %}"></span>
+				              {%elif PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 7 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count >= 4 %}
+				              <span>난이도</span><span class="eval-token"><img src="{% static 'assets/icon/mid.png' %}"></span>
+				              {%elif PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 4 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count >= 0 %}
+				              <span>난이도</span><span class="eval-token"><img src="{% static 'assets/icon/bottom.png' %}"></span>
+				              {%else%}
+				              <span>난이도</span><span class="eval-token"><img src="{% static 'assets/icon/top.png' %}"></span>
+				              {%endif%}
+										</div>
+						<div class="course-eval">
+							<span>평점</span><span class="eval-token"><span id="starpoint" class="starvalue">{{PBoard1.Total_StarPoint|calculateTotal:PBoard1.Total_Count}}</span></span>
+						</div>
+					</div>
+					
+				{% endfor%}
+		
+			
+			{% if is_paginated %}
+			
+			<div class="mycourse-pagenation" style="display:flex; justify-content: center;">
+				{%if start_index != 0 %}
+				<a id= "double-prev" class="MPage" name="{{start_index}}" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				{%else%}
+				<a id= "double-prev" class="MPage" name="1" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				{%endif%}
+
+		        {%if page_obj.has_previous%}
+		        <a id= "prev" name="{{page_obj.previous_page_number}}"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+		        {%else%}
+		        <a id= "prev"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+		        {%endif%}
+				{% for i in page_range %}     
+				        	{%if i == page_obj.number %}
+				         	<a style="color:#C1272D;" id ="ProPage"  name ="{{i}}" class="active item MPage" herf="#FirstPage">{{i}}</a>
+				        
+				        	{%else%}
+				        	 <a id ="ProPage" name ="{{i}}" class="item MPage" herf="#FirstPage">{{i}}</a>
+				        	{%endif%}    
+		        {%endfor%}
+		        {%if page_obj.has_next%}
+		        <a id= "next" class="MPage" name="{{page_obj.next_page_number}}"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+				{%else%}
+		        <a id= "next" class="MPage"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%endif%}
+		        {%if max_index > end_index %}
+		        <a id= "double-next" class="MPage" name="{{end_index|Add:1}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%else%}
+		        <a id= "double-next"  class="MPage" name="{{max_index}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%endif%}
+		       </div>
+		      {%endif%}
+			</div> 	
+		

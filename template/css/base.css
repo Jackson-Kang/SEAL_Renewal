@@ -1,0 +1,291 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+body,table,p,span{
+
+font-family: 'Noto Sans KR', 
+sans-serif;
+}
+
+@media ( min-width: 1367px ) {
+	header{
+		width:100%;
+		background-image:url("/static/assets/handong_header.jpg"); 
+		background-size: 100% 100%;
+		display:flex;
+		justify-content: center;
+	}
+	.head-container{
+		width:1366px;
+		
+
+		padding:5px;
+		display: -webkit-flex; /* Safari */
+	    -webkit-justify-content: space-between; /* Safari 6.1+ */
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    height:100%;
+
+	}  
+	main{
+		width:100%;
+		background-color: #e6e6e6;
+		padding-bottom:30px;
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	article{
+		width:1366px;
+		display:flex;
+		margin:0 3% 0 3%;
+
+	}
+	section{
+		width:100%;
+
+	}
+	aside
+	{
+		padding-left:80px;
+		padding-top:50px;
+	}
+	nav{
+		height:35px;
+		box-shadow: 2px 2px 2px;
+		margin-bottom: 1px;
+		display:flex;
+		justify-content: center;
+		width:100%;
+		
+	}
+	.nav-container{
+		width:1366px;
+		display:flex;
+		
+		align-items: center;
+		height:35px;
+
+	}
+	#category_subject_search
+	{
+		display:flex;
+		justify-content: center;	
+		width:100%;
+
+	}
+
+
+}
+@media (max-width:1366px){
+	header{
+		width:1366px;
+		background-image:url("/static/assets/handong_header.jpg"); 
+		background-size: 100% 100%;
+		display:flex;
+		justify-content: center;
+	}
+	.head-container{
+		width:100%;
+		
+
+		padding:5px;
+		display: -webkit-flex; /* Safari */
+	    -webkit-justify-content: space-between; /* Safari 6.1+ */
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    height:100%;
+
+	}
+	main{
+		width:1366px;
+		background-color: #e6e6e6;
+		padding-bottom:30px;
+		padding-left:165px;
+		padding-right:165px;
+	}
+	article{
+		width:100%;
+		display:flex;
+	}
+	section{
+		width:100%;
+
+	}
+	aside
+	{
+		padding-left:80px;
+		padding-top:50px;
+	}
+	nav{
+		height:35px;
+		box-shadow: 1px 1px 1px;
+	
+		margin-bottom: 1px;
+		
+		width:1366px;
+		padding-left:165px;
+	}
+	.nav-container{
+		
+		width:1366px;
+		display:flex;
+		align-items: center;
+		height:35px;
+
+	}
+	#category_subject_search
+	{
+		display:flex;
+		justify-content: center;	
+		width:1366px;
+
+	}
+
+}
+
+#logobox{
+	display:flex;
+	flex-direction: row;
+	margin-left:80px;
+}
+#logobox > div:first-child
+{
+	font-size:50px;
+	font-weight:bold;
+}
+#logobox a
+{
+	color:black;
+}
+#logobox > div:nth-child(2)
+{
+	padding-top:1px;
+	display:flex;
+	flex-direction: column;
+	font-size:16px;
+	justify-content: center;
+	margin:0px;
+}
+#logobox > div > p
+{
+	margin:0px;
+}
+
+.head-list{
+	margin-right:50px;
+}
+.head-list ul{
+	position:relative;
+	margin:0px;
+	padding:0px;
+}
+.head-list ul li{
+	display:inline;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+#search-box{
+	padding:5 5 5 5;
+	width:400px;
+	border:1px #8E4A4A solid;
+	border-radius:30px;
+	box-shadow: 1px 1px 1px #888888;
+	background-color:white;
+}
+
+#search-box input{
+	border:none;
+	outline:none;
+	width:93%;
+	box-shadow: 0 0 0;
+	padding-left:20px;
+}
+#search-box i
+{
+	width:5%;
+}
+
+
+#user-name{
+font-size:25px;
+margin-bottom:5px;
+}
+#user-edit{
+padding:1px;
+margin-left:5px;
+
+font-size:12px;
+}
+
+
+
+
+#profile{
+border-top:5px rgb(186,203,200) solid;
+border-bottom:5px rgb(186,203,200) solid;
+padding:20 0 20 15;
+background-color:white;
+}
+.profile-top{
+font-weight: bold;
+padding:0 0 0 0;
+display:flex;
+flex-direction: column;
+}
+.profile-mid{
+border-bottom:5px rgb(186,203,200) solid;
+}
+
+.profile-bottom{
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding:0;
+}
+
+.course-seal
+{
+width:100%;
+display:flex;
+margin-left:-10px;
+justify-content: space-around;
+margin-bottom:10px;
+}
+.course-recommend{
+border-radius: 30px;
+background-color: rgb(34,71,64);
+color:white;
+font-size:12px;
+padding:5 15 5 15;
+margin-left:-10px;
+}
+
+.profile-url{
+	padding:10 0 10 15;
+	background-color:white;
+}
+footer
+{
+
+	background:rgb(51,51,51);
+	color:white;
+	display:flex;
+	align-items:center;
+	height:70px;
+}
+
+
+span.starvalue, span.starvalue span {
+		    display: block;
+		    background: url(/static/assets/icon/star.png) 0 -20px repeat-x;
+		    width: 100px;
+		    height: 20px;
+}
+
+span.starvalue span {
+	    background-position: 0 0;
+}

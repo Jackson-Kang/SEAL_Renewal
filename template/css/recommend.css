@@ -1,0 +1,172 @@
+.recommend-nav-container
+	{
+		display:flex;
+
+		align-items:center;
+		height:100%;
+		width:1366px;
+	}
+	.recommend-nav-container span:nth-child(1),.recommend-nav-container span:nth-child(3)
+	{
+		font-size:16px;
+		font-weight: bold;
+	}
+	.recommend-nav-container span
+	{
+		padding-right:25px;
+		align-self:center;
+
+	}
+	.recommend-evaluation-container
+	{
+		display:flex;
+		flex-direction: column;
+		
+	}
+	.recommend-evaluation-container>div
+	{
+		display:flex;
+
+	}
+	.recommend-evaluation-container .c-e-hedaer
+	{
+		padding:10 0 20 0;
+		display:flex;
+		justify-content: space-between;
+	}	
+	.recommend-evaluation-container .c-e-search-box
+	{
+		width:100%;
+	background-color:white;
+	height:35px;
+	margin-right:20px;
+	}
+	.c-e-search-box input{
+		height:100%;
+		width:80%;
+	border:none;
+	outline:none;
+	box-shadow: 0 0 0;
+	padding-left:40px;
+}
+
+.c-e-search-box i
+{
+	width:5%;
+}
+	.c-e-hedaer p
+	{
+		padding:10px;
+	}
+	
+	.c-e-body
+	{
+		display:flex;
+		flex-direction: column;
+		background-color:white;
+		
+	}
+	.c-e-body>div
+	{
+		display:flex;
+
+	}
+	
+	.body-content
+	{
+		padding:20 10 20 10;
+	}
+	.body-content .content-name
+	{
+		padding-right:15px;
+		font-weight:bold;
+	}
+	.body-content{
+		width:90%;	
+	}
+	.body-content:first-child >div
+	{
+		width:33%;
+		display:flex; 
+		align-items: center;
+	}
+	.body-content:nth-child(2) >div
+	{
+		width:50%;
+		display:flex; 
+		align-items: center;
+	}
+	.body-content:nth-child(3)> div
+	{
+		width:30%;
+		display:flex; 
+		align-items: center;
+	}
+	.body-content:nth-child(3)> div:nth-child(2)
+	{
+		width:50%;
+		display:flex; 
+		align-items: center;
+	}
+	.body-content : nth-child(4) > div:nth-child(2){
+		width:70px;
+	}
+	.body-table-content
+	{
+		display:flex;
+
+	}
+	.c-e-body p,.c-e-body span
+	{
+		margin:0px;
+	}
+	.exam-method, .course-method
+	{
+		padding:10px;
+		border:1px solid black;
+		cursor:pointer;
+	}
+	.method-active
+	{
+		background-color:rgb(159,95,95);
+		color:white;
+	}
+	div.stars {
+	  
+	  display: flex;
+}
+
+input.star { display: none; }
+
+label.star {
+  float: right;
+  padding: 10px;
+  font-size: 36px;
+  color: #444;
+  transition: all .2s;
+  background: url(/static/assets/icon/star.png) 0 -20px;
+
+}
+.text-area-information
+{
+	color:white;
+	background-color:green;
+	height:100px;
+	padding:10 10 10 10;
+}
+.jubo
+{
+	width:100%;
+	padding:0px !important;
+	margin-left:10px;
+	border:1px gray solid;
+	display:flex;
+	flex-direction: column;
+}
+.jubo-item
+{
+	width:100%;
+}
+.level-diff,.homework-count, .star{
+	cursor:pointer;
+}

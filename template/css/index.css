@@ -1,0 +1,145 @@
+.select-box
+{
+	padding:0 5 0 5;
+	display:flex;
+	align-items: center;
+	
+}
+.select-box .default{
+	color:rgb(131,131,131)!important;
+}
+
+.course-box
+{
+	width:100px;
+	margin-left:50px;
+	background-color:white;
+	color:rgb(131,131,131);
+
+}
+.course-box div
+{
+	cursor:pointer;
+
+}
+.mycourse
+{
+	width:150px;
+}
+.menu
+{
+	z-index: 20;
+}	
+.course-item{
+	display:flex;
+	border:2px solid rgb(234,234,234);
+	text-align: left;
+	margin-bottom:20px;
+	border-radius: 10px;
+	background-color:white;
+	cursor:pointer;
+}
+.course-item div{
+	margin:10 0 10 0;
+	display:flex;
+	
+	flex-direction: column;
+	justify-content: center;
+}
+.course-item .course-count{
+	width:81px;
+	align-items: center;
+	text-align: center;
+	border-right:1px rgba(200,200,200,0.5) solid ;
+}
+.course-item .course-name{
+	width:20%;
+	margin-right:5px;
+	margin-left:10px;
+	font-size:16px;
+}
+.course-item .course-professor{
+		font-size:16px;
+	width:12%;
+	margin-right:10px;
+}
+.course-item .course-homework{
+	width:15%;
+	flex-direction: row;
+	align-items: center;
+    border-left:1px rgba(200,200,200,0.5) solid ;
+    margin-top:15px;
+    margin-bottom:15px;
+}
+.course-homework >span{
+    padding:0 3 0 3;
+}
+.course-item .course-difficulty{
+	width:15%;
+	flex-direction: row;
+	align-items: center;
+  
+    margin-top:15px; 
+    margin-bottom:15px;
+}
+.course-difficulty >span{
+    padding:0 3 0 3;
+}
+.course-item .course-eval{
+	width:24%;
+	flex-direction: row;
+	align-items: center;
+}
+.course-eval > span{
+    padding:0 3 0 3;
+}
+
+.course-page
+{
+	padding:0 15 0 15;
+}
+.course-pagenation {
+	display:flex; justify-content: center;
+}
+.course-pagenation a
+{
+	color:#808080;
+	
+	padding:0 10 0 10;
+	align-self: center;
+	cursor:pointer;
+}
+
+.search-page
+{
+	padding:0 15 0 15;
+}
+.search-pagenation
+{
+	display:flex; justify-content: center;
+}
+.search-pagenation a
+{
+	color:#808080;
+	display:flex;
+	padding:0 10 0 10;
+	align-self: center;
+	cursor:pointer;
+}
+.eval-token img
+{
+	width:35px;
+	height:35px;
+}
+.mycourse-pagenation
+{
+	display:flex; justify-content: center;
+}
+.mycourse-pagenation a
+{
+	color:#808080;
+	display:flex;
+	padding:0 10 0 10;
+	align-self: center;
+	cursor:pointer;
+}

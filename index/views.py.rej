@@ -1,0 +1,80 @@
+diff a/mysite2/index/views.py b/mysite2/index/views.py	(rejected hunks)
+@@ -181,15 +181,60 @@
+  			#여기 문제
+  			LectureData = [[]]
+  			LectureData[0]=Lecture.objects.filter(CourseName__contains=SearchData).order_by('Code')[0:5]
++ 			SearchCount = Lecture.objects.filter(CourseName__contains=SearchData).count()/5+1
+  			L_Data=PageView(LectureData)
++ 			PageInformation =[1,1,1]
++
++ 			if SearchCount >10:
++ 				PageInformation[0] = 1
++ 				PageInformation[2] = 11
++ 			else :
++ 				PageInformation[0] = 1
++ 				PageInformation[2] = SearchCount
++
++ 			T_Count = range(1,PageInformation[2])
++		
++ 			request.session['SearchPageInformation'] = PageInformation
++ 			request.session['SearchValue'] = SearchData
+  			return render_to_response('index.html', {
+  												'user':request.user,
+  												'Search' : L_Data,
++ 												'PageInformation' : PageInformation,
++												'T_Count':T_Count,
+ 												})
+  		else:
+  			return HttpResponseRedirect("/mysite2")
+ 
++def SearchPage(request, offset):
++	if request.user.username =="":
++ 		return HttpResponseRedirect("/mysite2")
++ 	else:
++ 			try:
++					offset = int(offset)
++			except ValueError:
++					raise Http404()
++ 			SearchData = request.session['SearchValue']
++ 			
++
++ 			PageInformation = request.session['SearchPageInformation']
++ 			PageInformation[1] = offset
++ 			LectureData = [[]]
++ 			LectureData[0]=Lecture.objects.filter(CourseName__contains=SearchData).order_by('Code')[(PageInformation[1]-1)*5:(PageInformation[1]-1)*5+5]
++ 			SearchCount = Lecture.objects.filter(CourseName__contains=SearchData).count()/5+1
++ 			L_Data=PageView(LectureData)
++
++ 			if (PageInformation[1]/10) >= SearchCount/10:
++				T_Count = range(PageInformation[1]-(PageInformation[1]%10)+1,SearchCount+1)
++			else:
++				T_Count = range(PageInformation[1]-(PageInformation[1]%10)+1,PageInformation[1]-(PageInformation[1]%10)+11)
+ 
++ 			request.session['SearchPageInformation'] = PageInformation
++ 			return render_to_response('index.html', {
++ 												'user':request.user,
++ 												'Search' : L_Data,
++ 												'PageInformation' : PageInformation,
++ 												'T_Count' : T_Count,
++												})
+ #메인 페이지 view 함수로 옮김
+ def PageView(TotalBoard):
+ 	PageBoard = [[],[],[]]
+@@ -269,7 +314,7 @@
+ 		elif FirstMajor.find("영어학과")!= -1 or FirstMajor.find("경영학과")!= -1 or FirstMajor.find("사회복지학과")!= -1:
+ 			MajorCode[0]="SIE"
+ 			MajorCode[1]="None"
+-		elif FirstMajor.find("None") != -1:
++		elif FirstMajor==None :
+ 			MajorCode[2]="None"
+ 			MajorCode[3]="None"
+ 			MajorCode[4]="None"
+@@ -318,7 +363,7 @@
+ 		elif SecondMajor.find("영어학과") !=-1 or SecondMajor.find("경영학과") !=-1 or SecondMajor.find("사회복지학과")!=-1:
+ 			MajorCode[2]="SIE"
+ 			MajorCode[3]="None"
+-		elif SecondMajor.find("None") != -1:
++		elif SecondMajor==None :
+ 			MajorCode[2]="None"
+ 			MajorCode[3]="None"
+ 			MajorCode[4]="None"
