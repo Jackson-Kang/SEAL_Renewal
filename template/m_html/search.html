@@ -1,0 +1,171 @@
+{% extends "m_html/base.html" %}
+{% block head %}
+	{% load static from staticfiles %}
+   {% load app_filter %}
+   
+    <link rel="stylesheet" type="text/css" href="{% static 'm_css/index.css' %}" />
+    <script type="text/javascript" src="{% static 'm_js/index.js' %}"></script>
+    <title>SEAL</title>
+    
+    <script>
+    $(document).ready(function()
+    {
+     
+      $(".select_content").on("change",function()
+      {
+        event.stopPropagation();
+        getList();
+      })
+      
+      function getList(){
+
+        var category = $("#category").val();
+        var major= $("#major").val();
+        var ordered=$("#ordered").val();
+        $.ajax({ 
+              url : "/Category_Change/",
+              data : {
+                      'category':category,
+                      'major':major,
+                      'ordered':ordered,
+                      'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken]").val()
+                    },
+              
+             
+              type : "GET",
+              async : false,
+              beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                //}
+              }
+              },
+              
+              success:function(resp){     
+                     $(".course-page").html(resp);
+                     $('span.starvalue').starvalue();
+
+                    
+               },
+                error: function(xhr, option, error){
+                  alert(xhr.status); //오류코드
+                  alert(error); //오류내용
+
+                } 
+          });
+      }
+    })
+    </script>
+{% endblock %}
+{% block nav %}
+<nav>
+    <form id = "category_subject_search" action="/Search" method="POST">
+      {%csrf_token%}
+        <div class="nav-container">
+          <div class= "category_content">
+            <select id="major" class="menu select_content">
+              <option class="item category_item" value="0">전체</option>
+              <option class="item category_item" value="글로벌리더십">글로벌리더십학부</option>
+              <option class="item category_item" value="국제어문">국제어문학부</option>
+              <option class="item category_item" value="경영경제">경영경제학부</option>
+              <option class="item category_item" value="언론정보">언론정보문화학부</option>
+              <option class="item category_item" value="공간환경">공간환경시스템공학부</option>
+              <option class="item category_item" value="기계제어">기계제어공학부</option>
+              <option class="item category_item" valuee="콘텐츠">콘텐츠융합디자인학부</option>
+              <option class="item category_item" value="생명과학">생명과학부</option>
+              <option class="item category_item" value="전산전자">전산전자공학부</option>
+              <option class="item category_item" value="상담심리">상담싱리사회복지학부</option>
+              <option class="item category_item" value="ICT">ICT창업학부</option>
+              <option class="item category_item" value="창의융합">창의융합교육원</option>
+            </select>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+          </div>
+          <div  class= "category_content">
+            <select id="category" class="menu select_content">
+                    <option class="item category_item" value="0">전체</option>
+                    <option class="item category_item" value="전필">전공필수</option>
+                    <option class="item category_item" value="전선">전공선택</option>
+                    <option class="item category_item" value="교필">교양필수</option>
+                    <option class="item category_item" value="교선">교양선택</option>
+            </select>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+          </div>
+          
+          <div class= "category_content">
+            <select id="ordered" class="menu select_content">
+                    <option class="item category_item" value="최신순">최신순</option>
+                    <option class="item category_item" value="인기순">추천순</option>
+            </select>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+          </div>
+          
+      </div>
+        
+    </form>
+    
+      
+
+</nav>
+{% endblock %}
+{% block content %}  
+
+<div class="search-page">
+      
+    {%if PageBoard %}
+        {% for PBoard1 in PageBoard%}
+          
+          <div class="course-item" link="/Course/{{PBoard1.id}}">
+            <div class="course-count">
+              <div>
+                <span style="color:rgb(108,163,129); font-size:30px; margin-bottom:20px;">SEAL</span>
+                <span style="color:rgb(108,163,129); font-size:45px;">{{PBoard1.Total_Count}}</span>
+              </div>
+            </div>
+            <div class="course-div">
+              <span style="font-size:30px; line-height: 30px; margin-bottom:10px;" class="course-name">{{PBoard1.Course.CourseName}}</span>
+              <span style="font-size:25px; margin-bottom:10px;" class='course-code'>{{PBoard1.Course.Code}}</span>
+              <span style="font-size:25px; margin-bottom:10px;" class ='course-professor'>{{PBoard1.Course.Professor|ChangeName}}</span>
+            
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-homework">
+              
+              {%if PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 10 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count > 7 %}
+              <span  style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              {%elif PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 7 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count > 3%}
+              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/mid.png' %}"></span>
+              
+              {%elif PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 3 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count >= 0 %}
+              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/bottom.png' %}"></span>
+              {%else%}
+              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              {%endif%}
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-difficulty">
+              {%if PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 10 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count  > 7 %}
+              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              {%elif PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 6 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count > 3 %}
+              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/mid.png' %}"></span>
+              {%elif PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 3 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count >= 0 %}
+              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/bottom.png' %}"></span>
+              {%else%}
+              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              {%endif%}
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-eval">
+              <span style="font-size:25px;">평점</span><span style="display:flex; align-items:center;height:70px;font-size:35px;">{{PBoard1.Total_StarPoint|mCalculateTotal:PBoard1.Total_Count}}</span>
+            </div>
+
+          </div>
+          
+        {% endfor%}
+      {%endif%} 
+      {% if is_paginated %}
+      {%if page_obj.has_next%}
+      <a id= "next" class="SPage" name="{{page_obj.next_page_number}}">강의 더보기</a>
+      {%endif%}
+      
+      {%endif%}
+  </div>      
+
+
+{% endblock %} 

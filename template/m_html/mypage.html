@@ -1,0 +1,517 @@
+{% extends "m_html/base.html" %}
+{% block head %}
+{% load static from staticfiles %}
+{% load app_filter %}
+<style>
+.arrow_box {
+  display: none;
+  position: absolute;
+  padding: 16px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;  
+  border-radius: 8px;
+  background: white;
+  right:50px;
+
+  color: black;
+}
+
+.arrow_box:after {
+  position: absolute;
+  bottom: 100%;
+  left: 70%;
+  width: 0;
+  height: 0;
+  margin-left: -10px;
+  border: solid transparent;
+  border-color: rgba(51, 51, 51, 0);
+  border-bottom-color: white;
+  border-width: 10px;
+  pointer-events: none;
+  content: " ";
+}
+.arrow_box:focus{
+	background-color:white;
+}
+	.mypage-nav-container
+	{
+	display:flex;
+		align-items:center;
+		height:100%;
+		width:1366px;
+		font-weight: bold;
+		font-size:15px;
+	}
+	.mypage-container
+	{	
+
+		display:flex;
+ 		flex-direction: column;
+ 		margin-top:50px;
+ 		margin-left:30px;
+ 		margin-right:30px;
+	}
+	.m-header{	
+		background: -webkit-linear-gradient(45deg,rgb(206,231,225), rgb(243,233,234)); /* For Safari 5.1 to 6.0 */
+	    background: -o-linear-gradient(45deg,rgb(206,231,225), rgb(243,233,234)); /* For Opera 11.1 to 12.0 */
+	    background: -moz-linear-gradient(45deg,rgb(206,231,225), rgb(243,233,234)); /* For Firefox 3.6 to 15 */
+	    background: linear-gradient(45deg,rgb(206,231,225), rgb(243,233,234)); /* Standard syntax */
+		padding:20 0 20 0;
+		letter-spacing:3px;
+
+	}
+	.m-body-first,.m-body-third,.m-body-second
+	{
+		display:flex;
+		padding:25 0 25 0;
+	}
+	
+	.m-body
+	{	
+		padding-left:30px;
+		padding-top:20px;
+		padding-bottom:20px;
+		background-color:rgb(240,240,240);
+	}
+	.m-footer
+	{
+		padding-top:20px;
+	}
+
+.body-first, .body-second, .body-third,
+.body-first>div, .body-second>div, .body-third>div
+{
+	padding:10px;
+}
+.body-first>div>p:first-child, .body-second>div>div:first-child>p:first-child, .body-third>div>p:first-child
+{
+	padding-right:15px;
+	font-weight: bold;
+}
+.body-first{
+	width:80%;	
+}
+.body-first >div
+{
+	width:32%;
+	display:flex; 
+	align-items: center;
+}
+.body-second >div
+{
+	width:48%;
+	display:flex; 
+	align-items: center;
+}
+.body-third> div
+{
+	width:100%;
+	display:flex; 
+	align-items: center;
+}
+.c-e-body p,.c-e-body span
+{
+	margin:0px;
+}
+.exam-method, .course-method
+{
+	padding:10px;
+}
+.method-active
+{
+	background-color:rgb(159,95,95);
+	color:white;
+}
+.single-course-evaluation-container
+{
+	display:flex;
+ 		flex-direction: column;
+ 		margin-top:50px;
+ 		margin-left:30px;
+ 		margin-right:30px;
+}
+.single-course-evaluation-container p
+{
+	margin:0px;
+}
+
+.s-c-e-body
+{
+	display:flex;
+	flex-direction: column;
+
+}
+
+
+.s-c-e-body-divide
+{
+	display: flex;
+}
+.s-c-e-items
+{
+	width:100%;
+	margin:15 15 15 0;
+
+}
+.s-c-e-i-hedaer
+{
+	display:flex;
+	justify-content: space-between;
+	padding: 5 0 5 0;
+}
+.s-c-e-i-body{
+		
+		box-shadow: gray 1px 1px 1px 1px;
+		background-color:rgb(240,240,240);
+		display:flex;
+		flex-direction: column;
+		padding:20px;
+
+}
+.s-c-e-i-body>div
+{
+	display:flex;
+
+}
+.s-c-e-i-content
+{
+	display:flex;
+	padding:10 0 10 0;
+	align-items: center;
+}
+.s-c-e-i-content>div
+{
+	display:flex;
+	align-items: center;
+
+}
+.s-c-e-i-content .content-name{
+	padding-right:20px;
+	font-weight:bold;
+}
+.hidden-comment
+{
+	display: none;
+}
+.open-comment
+{
+	cursor:pointer;
+}
+
+.open-comment>p, .close-comment>p
+{
+	text-align: center;
+}
+.jubo
+{
+	display:flex;
+	flex-direction: column;
+	width:90%;
+	padding:10px;
+}
+.jubo-row
+{
+	display:flex;
+	width:100%;
+}
+.jubo-item
+{
+	width:100%;
+	border:1px gray solid;
+}
+.course-page
+{
+padding:0 15 0 15;
+}
+.course-pagenation a
+{
+color:#808080;
+display:flex;
+padding:0 10 0 10;
+align-self: center;
+}
+</style>
+<script>
+	$(document).ready(function(){
+	 	$(".info_button  ").on("mousedown",function(){
+	 		event.stopPropagation();
+	 		if($(this).hasClass("open") ){
+	 			$(this).next().hide();
+	 			$(this).removeClass("open");
+	 		}
+	 		else{
+	 			$(this).next().show();	
+	 			$(this).addClass("open");
+	 		}
+	 	})
+	 
+	 	$("div").on("click",".open-comment",function()
+	 	{	
+	 		event.stopPropagation();
+	 		var position = $(this).prev()
+	 		var prevthis = $(this)
+	 		prevthis.html('<i class="fas fa-chevron-up"></i>')
+	 		$(position).slideDown("slow",function()
+	 		{
+	 			prevthis.removeClass("open-comment");
+	 			prevthis.addClass("close-comment");
+	 			
+	 		});
+	 	
+	 	})
+	 	$("div").on("click",".close-comment",function()
+	 	{	
+	 		event.stopPropagation();
+	 		var position = $(this).prev()
+	 		var prevthis = $(this)
+	 		prevthis.html("<p>상세 더보기</p>")
+	 		$(position).slideUp("slow",function()
+	 		{
+	 			prevthis.removeClass("close-comment");
+	 			prevthis.addClass("open-comment");
+	 			
+	 		});
+
+	 	})
+	 	
+		$('form').on('click', '#changebtn4',function(){
+			var newnick = $('#Nickname').val();
+			if(newnick.length >= 2 && newnick.length <= 10){
+				if( newnick.indexOf(" ") !== -1 ){
+					alert("잘못된 입력입니다");
+				}
+				else{
+				//connect to DB at here
+					$.ajax(
+					{
+						url : "/MyPage/NickNameChange/",
+						data : {	
+							'Nickname' : $('#Nickname').val(),
+							 'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken").val(),
+						},
+						type : "POST",
+						success:function(resp){  
+						  alert('Successfully changed!');
+						  location.reload();
+						  } ,
+						error: function(xhr, option, error){
+						  alert('중복되는 닉네임이 존재합니다'); //오류내용
+						}
+						});
+
+					}
+			}
+			else {
+				alert('닉네임은 2자 이상 10자 이하로 사용해야 합니다');
+			}
+  		});
+	})
+	
+</script>
+<script type="text/javascript" src="{% static "m_js/mysealpage.js" %}"></script>
+{%endblock%}
+{% block content %}
+{%csrf_token%}
+<div class="mypage-container">
+		
+		<div class= "m-header">
+			<center><p style="font-size:30px;">보유 SEAL은 총 <span style="font-size:20px; font-weight:bold; color:rgb(206,231,225);">{{user.profile.RecommendCount}}</span>개입니다</p></center>
+		</div>
+		<div class= "m-body">
+			<form id = "NicknameChange" method = "POST">
+				
+				<div class="m-body-first">
+				
+					<div style="width:20%;">
+						<p style="font-size:40px; font-weight: bold;">닉네임</p>
+					</div>
+					<div style="width:33%;">
+					<p style="width:100%;"><input style=" width:100%; padding-right:20px;border:none; text-align: center; font-size:25px; border-bottom:1px solid gray; background-color:rgb(240,240,240); color:rgb(208,231,225);" type="text" id="Nickname" name="nickname" value="{{user.profile.UserName}}"></p>
+					</div>
+					<div style="width:33%;">
+						<button class="btn" type="button" style="background-color:gray; color:white; margin-left:10px; border-radius: 10px;" >수정</button>
+					</div>
+				</div>
+			</form>
+
+			<div class="m-body-second">				
+					<div style="width:150px;">
+						<p style="font-size:40px; font-weight: bold;">학번</p>
+					</div>
+					<div style="width:70%;">
+						<p style="font-size:30px;">{{user.username.1}}{{user.username.2}}</p>
+					</div>
+			</div>
+
+			<div class="m-body-third">
+				<div style="width:50%;display:flex;font-size:40px; padding-right:60px;"><p style="width:150px; font-size:35px; font-weight: bold;">1전공</p><p style="font-size:30px;">{{user.profile.FirstMajor}}</p></div>
+				<div style="width:50%;display:flex;font-size:40px;"><p style="width:30%; font-size:35px; font-weight: bold;">2전공</p><p style="width:70%; font-size:30px;">{{user.profile.SecondMajor}}</p></div>
+			</div>
+		</div>
+</div>
+<div class="sugang-container">
+		<div class= "m-footer">
+		<div class="single-course-evaluation-container">
+			<div class="s-c-e-body">
+			<p>
+				<span style="font-size:40px; color:rgb(164,185,182);">{{user.profile.UserName}}</span><span style="color:rgb(164,185,182);">님의 평가</span>
+			</p>
+						
+			{% if PageBoard %}	
+			{% for Board in PageBoard %}
+				<div class="s-c-e-items">
+					<div class= "s-c-e-i-hedaer">
+						
+					</div>
+					<div class= "s-c-e-i-body">
+						<div class="s-c-e-i-content" style="margin-bottom:15px; " >
+							<div style="width:100%;justify-content: space-between;">
+								<p style="font-size:40px;" class="content-name">{{Board.Course.CourseName}}</p>
+								<div class="upd_del_info">
+									<input type="hidden" class="focus_upd">
+									<i style="font-size:40px; color:gray;" class="info_button info fas fa-ellipsis-h"></i>
+									<div class="arrow_box">
+										<p id="{{Board.id}}" style="font-size:25px; margin-top:20px; margin-bottom:20px; border-bottom:1px solid black;"  class="course_edit" >수정하기</p>
+										<p id="{{Board.id}}" style="font-size:25px; margin-bottom:20px;" class="course_delete" >삭제하기</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="s-c-e-i-content" >
+
+							<div style="display:flex; width:50%; padding-right:20px;">
+								<p class="content-name" style="font-size:30px;">평점</p>
+								<p style="padding-left:20px;"><span id="starpoint" style="font-size:30px;"  class="starvalue">{{Board.StarPoint}}</span></p>
+							</div>
+
+							<div >
+								<p style="font-size:30px; margin-right:10px;">시험방식</p>
+								{% if Board.What_Answer|calculateData:100 == 1 %}
+							
+							<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">단답형</p>
+							{%elif Board.What_Answer|calculateData:1000 %}
+							<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">서술형</p>
+							{% elif Board.What_Answer|calculateData:10 == 1 %}
+							<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">혼합형</p>
+							{% elif Board.What_Answer|calculateData:1 == 1 %}
+							<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">해당없음</p>
+							{%endif%}
+							</div>
+						</div>
+						<div class="s-c-e-i-content">
+							<div style="width:50%;">
+
+
+
+							<div style="display:flex;align-items: center; padding-right:50px;">
+								<p class="content-name" style="font-size:30px;">과제량</p>
+								{% if Board.Homework <= 10	  and Board.Homework > 6 %}
+								<span style="font-size:25px;" class="top-grade" >상</span>
+								{% elif Board.Homework <= 6 and Board.Homework > 3 %}
+								<span style="font-size:25px;" class="middle-grade">중</span>
+								{% elif Board.Homework <= 3 or Board.Homework >= 0 %}
+								<span style="font-size:25px;" class="bottom-grade">하</span>
+								{% else %}
+								<span style="font-size:25px;" class="bottom-grade">하</span>
+								{% endif %}
+							</div>
+							<div style="display:flex;align-items: center; padding-right:50px;">
+								<p style="font-size:30px;" class="content-name"> 난이도 </p>
+								{% if Board.Level_Difficulty <= 10 and Board.Level_Difficulty > 6 %}
+								<span style="font-size:25px;" class="top-grade" >상</span>
+								{% elif Board.Level_Difficulty <= 6 and Board.Level_Difficulty > 3 %}
+								<span style="font-size:25px;" class="middle-grade">중</span>
+								{% elif Board.Level_Difficulty <= 3 and Board.Level_Difficulty >= 0 %}
+								<span style="font-size:25px;" class="bottom-grade">하</span>
+								{%else%}
+								<span style="font-size:25px;" class="bottom-grade">하</span>
+								{%endif%}
+							</div>
+							</div>
+							<div>
+							<p style="font-size:30px; margin-right:10px;">수업방식</p>
+						
+							{% if Board.Course_Answer|calculateData:10 == 1%}
+								<p style="font-size:25px; text-align:center; width:120px;"  class="exam-method method-active">PPT</p>
+							{% elif Board.Course_Answer|calculateData:100 == 1%}
+								<p style="font-size:25px; text-align:center; width:120px;""  class="exam-method method-active">교제</p>
+							{% elif Board.Course_Answer|calculateData:1 == 1%}
+								<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">실습</p>
+							{% else %}
+								<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">해당없음</p>
+							
+							{%endif%}	
+							</div>
+						</div>
+						
+						<div class="s-c-e-i-content">
+							<div>
+								<p style="font-size:30px; width:150px;" class="content-name">첨부파일</p>
+							</div>
+							<div class="jubo">
+								
+							</div>
+						</div>
+						<div style="display:flex; flex-direction: column;">
+							<div class="hidden-comment">
+								<div>
+									<p >상세평가</p><div class="ui divider"></div>
+								</div>
+								<div class="data-comment">{{Board.CourseComment|linebreaks}}</div>
+							</div>
+							<div class="open-comment"><center><i style="font-size:30px;" class="fas fa-chevron-down"></i></center></div>
+						</div>
+					</div>
+					<div class= "s-c-e-i-footer">
+					</div>
+				</div>		
+			{%endfor%}
+				{%else%}
+			<div class="not-course" style="display:flex; justify-content: center;align-items: center; flex-direction: column;">
+				<p style="font-size:100px; color:red;">!</p>
+				<p style="font-size:20px; color:rgb(170,170,170); padding-bottom:20px;">아직 평가가 없습니다.</p>
+				<div><a href="/Recommend"><button class="course-recommend"><span style="" id="btntext">강의 평가하러가기</span></button></a></div>
+			</div>
+			{%endif%}
+					
+			
+			{% if is_paginated %}
+					
+					<div class="course-pagenation" style="display:flex; justify-content: center;">
+						{%if start_index != 0 %}
+						<a id= "double-prev" class="SPage" name="{{start_index}}" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+						{%else%}
+						<a id= "double-prev" class="SPage" name="1" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+						{%endif%}
+
+				        {%if page_obj.has_previous%}
+				        <a id= "prev" class="Page" name="{{page_obj.previous_page_number}}"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				        {%else%}
+				        <a id= "prev" class="Page"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				        {%endif%}
+						{% for i in page_range %}     
+						        	{%if i == page_obj.number %}
+						         	<a style="color:#C1272D;" id ="ProPage"  name ="{{i}}" class="active item SPage" herf="#FirstPage">{{i}}</a>
+						        
+						        	{%else%}
+						        	 <a id ="ProPage" name ="{{i}}" class="item Page" herf="#FirstPage">{{i}}</a>
+						        	{%endif%}    
+				        {%endfor%}
+				        {%if page_obj.has_next%}
+				        <a id= "next" class="Page" name="{{page_obj.next_page_number}}"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+						{%else%}
+				        <a id= "next" class="Page"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+				        {%endif%}
+				        {%if max_index > end_index %}
+				        <a id= "double-next" class="Page" name="{{end_index|Add:1}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+				        {%else%}
+				        <a id= "double-next" class="Page" name="{{max_index}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+				        {%endif%}
+				       </div>
+				      {%endif%}
+				
+			
+
+</div>
+	</div>
+{% endblock %}

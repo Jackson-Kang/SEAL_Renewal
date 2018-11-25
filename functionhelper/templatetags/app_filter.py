@@ -39,6 +39,12 @@ def calculateTotal(val,arg):
 		return 0
 register.filter(calculateTotal)
 
+@register.filter(name='mCalculateTotal')
+def mCalculateTotal(val,arg):
+	try:
+		return "{0:.1f}".format(val/arg)
+	except:
+		return 0
 @register.filter
 def filename(value):
 	return os.path.basename(value.file.name)

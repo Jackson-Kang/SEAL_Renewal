@@ -1,0 +1,80 @@
+{% load static from staticfiles %}
+{% load app_filter %}
+{%if PageBoard %}
+        {% for PBoard1 in PageBoard%}
+          
+          <div class="course-item" link="/Course/{{PBoard1.id}}">
+            <div class="course-count">
+              <div>
+                <span style="color:rgb(108,163,129); font-size:30px; margin-bottom:20px;">SEAL</span>
+                <span style="color:rgb(108,163,129); font-size:45px;">{{PBoard1.Total_Count}}</span>
+              </div>
+            </div>
+            <div class="course-div">
+              <span style="font-size:30px; line-height: 30px; margin-bottom:10px;" class="course-name">{{PBoard1.Course.CourseName}}</span>
+              <span style="font-size:25px; margin-bottom:10px;" class='course-code'>{{PBoard1.Course.Code}}</span>
+              <span style="font-size:25px; margin-bottom:10px;" class ='course-professor'>{{PBoard1.Course.Professor|ChangeName}}</span>
+            
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-homework">
+              
+              {%if PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 10 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count > 7 %}
+              <span  style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              {%elif PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 7 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count > 3%}
+              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/mid.png' %}"></span>
+              
+              {%elif PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 3 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count >= 0 %}
+              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/bottom.png' %}"></span>
+              {%else%}
+              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              {%endif%}
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-difficulty">
+              {%if PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 10 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count  > 7 %}
+              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              {%elif PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 6 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count > 3 %}
+              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/mid.png' %}"></span>
+              {%elif PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 3 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count >= 0 %}
+              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/bottom.png' %}"></span>
+              {%else%}
+              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              {%endif%}
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-eval">
+              <span style="font-size:25px;">평점</span><span style="display:flex; align-items:center;height:70px;font-size:35px;">{{PBoard1.Total_StarPoint|mCalculateTotal:PBoard1.Total_Count}}</span>
+            </div>
+
+          </div>
+          
+        {% endfor%}
+      {%endif%} 
+      {% if is_paginated %}
+      <div class="course-pagenation" >
+        
+        <a id= "double-prev"  name="{{page_obj.start_index}}" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+        {%if page_obj.has_previous%}
+        <a id= "prev" class="Page" name="{{page_obj.previous_page_number}}"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+        {%else%}
+        <a id= "prev"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+        {%endif%}
+        {% for i in page_range %}     
+              {%if i == page_obj.number %}
+              <a style="color:#C1272D;" id ="ProPage"  name ="{{i}}" class="active item Page" herf="#FirstPage">{{i}}</a>
+            
+              {%else%}
+               <a id ="ProPage" name ="{{i}}" class="item Page" herf="#FirstPage">{{i}}</a>
+              {%endif%}
+        
+        {%endfor%}
+        {%if page_obj.has_next%}
+        <a id= "next" class="Page" name="{{page_obj.next_page_number}}"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+        {%else%}
+        <a id= "next" ><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+        {%endif%}
+        {%if page_obj.end_index|Mod:10 == 0%}
+        <a id= "double-next" class="Page" name="{{page_obj.end_index|Add:1}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+        {%else%}
+        <a id= "double-next" class="Page" name="{{page_obj.end_index}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+        {%endif%}
+       </div>
+      {%endif%}

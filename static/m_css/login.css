@@ -1,0 +1,94 @@
+header
+{
+	width:100%;
+}
+.head-container
+{
+		width:100%;
+		display:flex;
+		flex-direction: column;
+		justify-content: center;
+		align-content: center;
+		color:white;
+}
+
+#site_name
+{
+	font-size:50px;
+	text-align: center;
+
+}
+#site_name >a
+{
+	color:white !important;
+}
+.title_name
+{
+	text-align: center;
+
+}
+
+#loginbox
+{
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top : 30px;
+}
+
+
+body{
+			background-image:url("/static/assets/handong_background.jpg");
+			background-repeat:no-repeat;
+			background-size: 100% 100%;
+			
+			display:flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+
+}
+
+.form-group{
+	width:100%;
+	display:flex;
+	justify-content: center;
+
+}
+.form-control
+{
+	border-radius:30px;
+	width:75%;
+	height:45px;
+	text-align:center;
+	background-color:rgba(255,255,255,0.1);
+}
+.form-control::placeholder{
+
+	color:white;
+	font-weight: bold;
+	font-size:20px;
+}
+.form-control::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	color:white;
+	font-weight: bold;
+}
+.form-control::-moz-placeholder { /* Firefox 19+ */
+	color:white;
+	font-weight: bold;
+}
+.form-control:-ms-input-placeholder { /* IE 10+ */
+	color:white;
+	font-weight: bold;
+}
+.form-control:-moz-placeholder { /* Firefox 18- */
+	color:white;
+	font-weight: bold;
+}
+#login-button{
+	color:white;
+	background-color:rgb(109,207,187);
+	border-radius:30px;
+	width:75%;
+	height:45px;
+}

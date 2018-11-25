@@ -29,10 +29,17 @@ class CourseView(LoginRequiredMixin,PageView):
 	renew_professor_name=""
 	logger = logging.getLogger("mysite2.course") 
 	def get_template_names(self):
+		flavour = self.request.flavour
 		if 'page' in self.kwargs:
-			template_name="html/coursepage.html"
+			if flavour == "mobile":
+				template_name = "m_html/coursepage.html"
+			else :
+				template_name="html/coursepage.html"
 		else:
-			template_name="html/course.html"
+			if flavour == "mobile":
+				template_name = "m_html/course.html"
+			else:
+				template_name="html/course.html"
 		return 	[template_name]	
 	
 	def get_queryset(self):

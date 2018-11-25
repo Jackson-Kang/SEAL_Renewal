@@ -37,9 +37,9 @@ from django.contrib import messages
 #로그인 페이지	
 class LoginView(ListView):
 	template_name = 'html/login.html'
-	m_template_name = "m_skins/m_html/login.html"
+	m_template_name = "m_html/login.html"
 	context_object_name = "PageBoard"
-	model=Total_Evaluation
+	model = Total_Evaluation
 
 	def get_context_data(self,**kwargs):
 		if self.request.user.is_authenticated():
@@ -54,15 +54,19 @@ class LoginView(ListView):
 			context['form']=LoginForm()
 		return context
 	def get_template_names(self):
+		flavour = self.request.flavour
 		if self.request.user.is_authenticated():
-			
-			template_name="html/index.html"
+			template_name = "html/index.html"
+			if flavour == "mobile":
+				template_name ="m_html/index.html"
 		else:
-			template_name="html/login.html"
-		return 	[template_name]	
+			template_name = "html/login.html"
+			if flavour == "mobile":
+				template_name = "m_html/login.html"
+		return [template_name]	
 	def get_queryset(self):
 		if self.request.user.is_authenticated():
-			CourseCode=MajorSelect(self.request.user)
+			CourseCode = MajorSelect(self.request.user)
 			return Total_Evaluation.objects.filter(Q(Course__Code__contains =CourseCode[0]) |Q(Course__Code__contains=CourseCode[1]))
 	def post(self,request,*args, **kwargs):
 		form =LoginForm(request.POST)

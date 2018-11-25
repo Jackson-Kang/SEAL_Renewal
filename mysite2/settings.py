@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'login',
     'rest_framework',
     'index',
@@ -53,10 +54,8 @@ INSTALLED_APPS = (
     'functionhelper',
     'databasehelper',
     'dbbackup', # django-dbbackup
-    'django_mobile',
     'sugangpage',
-
-
+    'django_mobile',
 
 )
 AUTH_USER_MODEL = 'auth.User'
@@ -69,9 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_mobile.middleware.MobileDetectionMiddleware',
-    'django_mobile.middleware.SetFlavourMiddleware',
-
+    'django_mobile.middleware.MobileDetectionMiddleware'
 )
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
@@ -92,7 +89,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'dnwnchlrkd206'
+        'PASSWORD': 'dnwnchlrkd'
       
       }
 }
@@ -127,6 +124,10 @@ STATICFILES_DIRS = [
 ('js', '/home/cra/ClassSEAL/mysite2/template/js'),
 ('assets', '/home/cra/ClassSEAL/mysite2/template/assets'),
 ('html','/home/cra/ClassSEAL/mysite2/template/html'),
+('m_html','/home/cra/ClassSEAL/mysite2/template/m_html'),
+('m_css','/home/cra/ClassSEAL/mysite2/template/m_css'),
+('m_js','/home/cra/ClassSEAL/mysite2/template/m_js'),
+
 ]
 
 

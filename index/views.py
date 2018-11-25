@@ -40,6 +40,17 @@ class MainPageView(LoginRequiredMixin,PageView):
 	logger = logging.getLogger(__name__) 
 	class Meta:
 		ordering = ['id']
+	def get_template_names(self):
+		if 'page' in self.kwargs:
+			template_name = "html/page.html"
+			m_template_name = "m_html/page.html"
+		else:
+			template_name = "html/page.html"
+			m_template_name = "m_html/page.html"
+		if self.request.flavour == 'mobile':
+			return [m_template_name]
+		else:
+			return [template_name]
 	def get_queryset(self):
 		CourseCode=MajorSelect(self.request.user)
 		return Total_Evaluation.objects.filter(Q(Course__Code__contains =CourseCode[0]) |Q(Course__Code__contains=CourseCode[1])).order_by("id")
@@ -74,10 +85,16 @@ class SearchView(LoginRequiredMixin,PageView):
 		ordering = ['id']
 	def get_template_names(self):
 		if 'page' in self.kwargs:
-			template_name="html/searchpage.html"
+			template_name = "html/searchpage.html"
+			m_template_name = "m_html/searchpage.html"
 		else:
-			template_name="html/search.html"
-		return 	[template_name]		
+			template_name = "html/search.html"
+			m_template_name = "m_html/search.html"
+		if self.request.flavour == 'mobile':
+			return [m_template_name]
+		else:
+			return [template_name]
+
 	def get_context_data(self,**kwargs):
 		context=super(SearchView,self).get_context_data(**kwargs)
 		context['search']=self.request.GET['search'].upper()
@@ -171,12 +188,17 @@ class MyCourseView(LoginRequiredMixin,PageView):
 		user = Profile.objects.get(User =self.request.user)
 		if 'page' in self.kwargs:
 			template_name="html/mysugangpage.html"
+			m_template_name="m_html/mysugangpage.html"
 		elif len(user.LectureRecord.split("$$")[0].split("->"))<3:
-			template_name="html/notmysuganglist.html"
+			template_name = "html/notmysuganglist.html"
+			m_template_name = "m_html/notmysuganglist.html"
 		else:
 			template_name="html/mysuganglist.html"
-		return 	[template_name]	
-	
+			m_template_name = "m_html/mysuganglist.html"
+		if self.request.flavour == "mobile": 
+			return 	[m_template_name]	
+		else :
+			return [template_name]
 	def get_context_data(self,**kwargs):
 		context=super(MyCourseView,self).get_context_data(**kwargs)
 		
@@ -208,6 +230,18 @@ class CategorySystemView(LoginRequiredMixin,PageView):
 	context_object_name = "PageBoard"
 	paginate_by=10
 	Dic={}
+	def get_template_names(self):
+		user = Profile.objects.get(User =self.request.user)
+		if 'page' in self.kwargs:
+			template_name="html/categorypage.html"
+			m_template_name="m_html/categorypage.html"
+		else:
+			template_name="html/categorypage.html"
+			m_template_name = "m_html/categorypage.html"
+		if self.request.flavour == "mobile": 
+			return 	[m_template_name]	
+		else :
+			return [template_name]
 	def get_queryset(self):
 		logger = logging.getLogger("mysite2.lecture") 
 		
@@ -223,12 +257,15 @@ class CategorySystemView(LoginRequiredMixin,PageView):
 			orderdata='Total_Count'
 		else:
 			orderdata='-Total_Count'
-		if(major!="0" and category !="0"):	
+		if(major =="0" and category =="0"):
+			return Total_Evaluation.objects.all()
+		elif(major!="0" and category !="0"):	
 			return Total_Evaluation.objects.filter(Course__Category=category,Course__Major__icontains=major).order_by(orderdata,'id')
 		elif major=="0":
 			return Total_Evaluation.objects.filter(Course__Category=category).order_by(orderdata)
 		elif category=="0":
 			return Total_Evaluation.objects.filter(Course__Major__contains=major).order_by(orderdata)
+		
 	def get_context_data(self,**kwargs):
 		context=super(CategorySystemView,self).get_context_data(**kwargs)
 		for key in self.Dic.keys():
@@ -309,7 +346,6 @@ def Judgement(request): # 신고 게시판 기능
 	
 @csrf_protect
 def Page(request): #Main Page를 보여주는 함수 
-	mobile = request.flavour
 	if CheckingLogin(request.user.username):
 		return HttpResponseRedirect("/")
 	try:

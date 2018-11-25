@@ -21,6 +21,14 @@ class RecommendView(LoginRequiredMixin,TemplateView):
 	login_url="/"
 	template_name ="html/recommend.html"
 	form_class=RecommendForm
+	def get_template_names(self):
+		flavour = self.request.flavour
+		
+		if flavour == "mobile":
+			template_name = "m_html/recommend.html"
+		else:
+			template_name="html/recommend.html"
+		return 	[template_name]	
 class RecommendWriteView(LoginRequiredMixin,View):
 	login_url="/"
 	def post(self,request,*args, **kwargs):

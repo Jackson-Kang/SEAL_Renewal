@@ -1,0 +1,111 @@
+{% load static from staticfiles %}
+{% load app_filter %}
+{% for Board in OtherCourseBoard %}
+<div  class="content">
+			<div style="display:flex; align-items: center; text-align: center; padding-bottom :17px; padding-left: 15px; padding-top :17px;border-bottom:1px solid black" >
+				<span style="font-size:28px; margin-right:20px;" >평점</span>
+				<span id="starpoint" class="starvalue">{{Board.StarPoint}}</span>
+				
+			</div>
+			<div style="padding-left : 100px; margin-top:20px; margin-bottom:20px;" class="hidden-content">
+				<div style="text-align:center;  margin-right:30px; display:flex; flex-direction: column;align-items: center;">
+					<p style="font-size:28px;">과제량</p>
+					<p >
+						{% if Board.Homework <= 10	  and Board.Homework > 6 %}
+						<span class="top-grade" >상</span>
+						{% elif Board.Homework <= 6 and Board.Homework > 3 %}
+						<span class="middle-grade">중</span>
+						{%elif Board.Homework <= 3 and Board.Homework >= 0 %}
+						<span class="bottom-grade">하</span>
+						{%endif%}
+					</p>
+				</div>
+				<div style="text-align:center; margin-right:100px; display:flex; flex-direction: column;align-items: center;">
+					<p style="font-size:28px;">난이도</p>
+					<p>
+						{%if Board.Level_Difficulty <= 10 and Board.Level_Difficulty > 7  %}
+						<span class="top-grade">상</span>
+						{%elif Board.Level_Difficulty <= 7 and Board.Level_Difficulty > 3 %}
+						<span class="middle-grade">중</span>
+						{%elif Board.Level_Difficulty <= 3 and Board.Level_Difficulty >= 0 %}
+						<span class="bottom-grade">하</span>
+						{%endif%}
+					</p>
+				</div>
+				<div style="display:flex; flex-direction: column; justify-content: space-between;">
+					<div style="display:flex; ">
+							<div style="margin-right:40px;">
+								<p class="body-name" style="font-size:25px;">시험방식</p>
+							</div>
+							<div style="display:flex;">
+								{% if Board.What_Answer|calculateData:100 == 1 %}
+									<p class="exam-method method-active">단답형</p>
+								{% else %}
+									<p class="exam-method">단답형</p>
+								{%endif%}
+								{% if Board.What_Answer|calculateData:1000 == 1 %}
+									<p class="exam-method method-active">서술형</p>
+								{%else%}
+									<p class="exam-method">서술형</p>
+								{%endif%}
+				
+								{% if Board.What_Answer|calculateData:10 == 1 %}
+									<p class="exam-method method-active">혼합형</p>
+								{%else%}
+									<p class="exam-method">혼합형</p>
+								{%endif%}
+								{% if Board.What_Answer|calculateData:1 == 1 %}
+									<p class="exam-method method-active" >해당없음</p>
+								
+								{%else%}
+									<p class="exam-method" >해당없음</p>
+								{%endif%}
+							</div>
+					</div>
+				
+					<div style="display:flex;">
+						<div style="margin-right:40px;">
+							<p class="body-name" style="font-size:25px;">수업방식</p>
+						</div>
+						<div style="display:flex;">
+							{% if Board.Course_Answer|calculateData:10 == 1%}
+						<p class="exam-method method-active">PPT</p>
+					{%else%}
+						<p class="exam-method">PPT</p>
+					{%endif%}
+					{% if Board.Course_Answer|calculateData:100 == 1%}
+						<p class="exam-method method-active">교재</p>
+					{%else%}
+						<p class="exam-method">교재</p>
+					{%endif%}
+					{% if Board.Course_Answer|calculateData:1 == 1%}
+						<p class="exam-method method-active">실습</p>
+					{%else%}
+						<p class="exam-method">실습</p>
+					{%endif%}
+							
+						</div>
+					</div>
+				</div>
+			</div>	
+			<div style="display:flex; flex-direction: column; border-top:1px solid black; padding-left:15px; padding-right:15px;">
+				<div class="a-comment">
+					<div  class="data-comment">{{Board.CourseComment|truncatechars:100|linebreaks}}</div>
+				</div>
+				<div style="display:none;" class="hidden-comment">
+					<div  class="data-comment">{{Board.CourseComment|linebreaks}}</div>
+				</div>
+			</div>
+			<div style="display:flex;justify-content: space-between; padding-left:15px; padding-right:15px;">
+				<div>
+					<span>{{Board.create_date|date:"Y-m-d"}}</span><span style="margin-left:10px; margin-right:10px;">|</span><span style="font-size:20px; color:rgb(164,185,182);">{{Board.CreatedID.UserName}}</span><span style="color:rgb(164,185,182);">님의 평가</span> 		
+				</div>
+				<i style="font-size:30px; padding-right:20px;" class="open-comment fas fa-chevron-down"></i>
+			</div>
+		</div>
+{%endfor%}
+{% if is_paginated %}
+	{%if page_obj.has_next%}
+		 <a id= "next" class="Page" name="{{page_obj.next_page_number}}"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+	{%endif%}
+	{%endif%}

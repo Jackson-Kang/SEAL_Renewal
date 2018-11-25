@@ -1,0 +1,197 @@
+{% extends "m_html/base.html" %}
+
+{% block head %}
+{% load static from staticfiles %}
+{% load app_filter %}
+<style>
+.sugang-header{
+	display:flex;
+}
+</style>
+<script>
+	$(document).ready(function()
+	{
+
+		$("div").on("click",".insert-sugang",function()
+		{
+			event.stopPropagation();
+			$.ajax({ 
+              url : "/SugangInsert/",
+              data : {
+                      'Content':$("#input-sugang").val(),
+                      'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken]").val()
+                    },
+              
+             
+              type : "GET",
+              async : false,
+              beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                //}
+              }
+          	  },
+              
+              success:function(resp){     
+                   location.href="/SugangChange/";
+                    
+               },
+                error: function(xhr, option, error){
+                  alert(xhr.status); //오류코드
+                  alert(error); //오류내용
+
+                } 
+          });
+		})
+		$("div").on("click",".delete",function()
+		{
+			event.stopPropagation();
+			$.ajax({ 
+              url : "/SugangDelete/",
+              data : {
+                      'ID':$(this).attr("id"),
+                      'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken").val()
+                    },
+              
+             
+              type : "POST",
+              async : false,
+              beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                //}
+              }
+          	  },
+              
+              success:function(resp){     
+                   location.href="/SugangChange/";
+                  
+               },
+                error: function(xhr, option, error){
+                  alert(xhr.status); //오류코드
+                  alert(error); //오류내용
+
+                } 
+          });
+		})
+		$('div').on('click',".SPage",function(event){
+		    event.stopPropagation();
+		    $(this).unbind("click");
+		    $.ajax({ 
+		          url : "/SugangPageNation/"+$(this).attr("name"),
+		          data : {
+		                  'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken").val(),
+		                },
+		          datatype:"json",
+		          type : "GET",
+		          async : false,
+		          beforeSend: function(xhr, settings) {
+		              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		              }
+		          },
+		          success:function(resp){     
+		                  $(".sugang-container").html(resp); 
+		            },
+		            error: function(xhr, option, error){
+		              alert(xhr.status); //오류코드
+		              alert(error); //오류내용
+
+		              } 
+         });
+
+    });
+	})
+	
+</script>
+{%endblock%}
+
+
+
+{%block content%}
+
+<div class="sugang-container">
+	<div class="sugang-header">
+	
+			<div style="width:25%; ">
+				<input id="have_course" style="height:60px; font-size:30px; text-align: center; border:none; outline:none; width:100%;" type="text" placeholder="보유과목">
+			</div>
+			<div style="width:25%; "> 
+				<input id="want_course" style="height:60px; font-size:30px; text-align: center; border:none; outline:none; width:100%;" type="text" placeholder="거래희망과목">
+			</div>
+			<div style="width:35%; ">
+				<input id="user-phone-num" style="height:60px; font-size:30px; text-align: center; border:none; outline:none; width:100%;" type="text" placeholder="연락처">
+			</div>
+			<div style="width:15%; ">
+				<button class="btn insert-sugang" style="height:60px; background-color:green; text-align: center; width:100%;   font-size:30px; color:white;" >입력</button>
+			</div>
+	</div>
+	<div class="sugang-body" style="padding-top:40px;">
+		<table  class="sugang-list">
+			<tr>
+				<th>날짜</th>
+				<th>보유과목</th>
+				<th>거래과목</th>
+				<th>연락처</th>
+			</tr>
+			{% for Sugang in SugangList %}
+			<tr class="sugang-item">
+				<td>{{Sugang.CreatedID.UserName}}</td>
+				{%if user.username == Sugang.CreatedID.User.username%}
+				<td class="sugang-second sugang-active"></td>
+				{%else%}
+				<td class="sugang-second">{{Sugang.Content}}</td>	
+				{%endif%}
+				<td>거래과목</td>
+				<td>콘텐츠 삭제버튼
+					{%if user.username == Sugang.CreatedID.User.username%}
+				
+					<i id="{{Sugang.id}}" style="position:relative; left:-20px;display:flex; align-self: center;" class="delete fa fa-times" aria-hidden="true"></i>
+					{%endif%}
+				
+				</td>
+			</tr>
+			{%endfor%}
+		</table>
+	</div>
+	<div class="sugang-footer">
+		{% if is_paginated %}
+			
+			<div class="sugang-pagenation" style="display:flex; justify-content: center;">
+				{%if start_index != 0 %}
+				<a id= "double-prev" class="SPage" name="{{start_index}}" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				{%else%}
+				<a id= "double-prev" class="SPage" name="1" ><i class="fa fa-caret-left" aria-hidden="true"></i><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+				{%endif%}
+
+		        {%if page_obj.has_previous%}
+		        <a id= "prev" name="{{page_obj.previous_page_number}}"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+		        {%else%}
+		        <a id= "prev" class="SPage"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+		        {%endif%}
+				{% for i in page_range %}     
+				        	{%if i == page_obj.number %}
+				         	<a style="color:#C1272D;" id ="ProPage"  name ="{{i}}" class="active item SPage" herf="#FirstPage">{{i}}</a>
+				        
+				        	{%else%}
+				        	 <a id ="ProPage" name ="{{i}}" class="item SPage" herf="#FirstPage">{{i}}</a>
+				        	{%endif%}    
+		        {%endfor%}
+		        {%if page_obj.has_next%}
+		        <a id= "next" class="SPage" name="{{page_obj.next_page_number}}"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+				{%else%}
+		        <a id= "next" class="SPage"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%endif%}
+		        {%if max_index > end_index %}
+		        <a id= "double-next" class="SPage" name="{{end_index|Add:1}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%else%}
+		        <a id= "double-next" class="SPage" name="{{max_index}}"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		        {%endif%}
+		       </div>
+		      {%endif%}
+	</div>
+</div>
+
+
+
+{%endblock%}

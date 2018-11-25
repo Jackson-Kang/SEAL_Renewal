@@ -20,10 +20,17 @@ class MyPageView(LoginRequiredMixin,PageView):
 	context_object_name="PageBoard"
 	renew_professor_name=""
 	def get_template_names(self):
+		flavour = self.request.flavour
 		if 'page' in self.kwargs:
-			template_name="html/mypage.html"
+			if flavour == "mobile":
+				template_name = "m_html/mypage.html"
+			else :
+				template_name="html/mypage.html"
 		else:
-			template_name="html/sealmypage.html"
+			if flavour == "mobile":
+				template_name = "m_html/mypage.html"
+			else:
+				template_name="html/mypage.html"
 		return 	[template_name]	
 	
 	def get_queryset(self):

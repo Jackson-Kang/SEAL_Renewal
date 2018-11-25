@@ -1,0 +1,207 @@
+{% extends "m_html/base.html" %}
+
+{% block head %}
+{% load static from staticfiles %}
+{% load app_filter %}
+ <link rel="stylesheet" type="text/css" href="{% static 'm_css/course.css' %}" />
+  <script type="text/javascript" src="{% static 'm_js/course.js' %}"></script>
+ <title>SEAL</title>
+
+{% endblock %}
+
+
+{% block content %}  
+<div class="m-course-container">
+	<div class="top">
+		<p>{{CourseBoard.Course.CourseName}}</p><p>{{CourseBoard.Course.Code}}</p><p>{{CourseBoard.Course.Professor}}</p>
+	</div>
+	<div class="content">
+		<div style="text-align: center; margin-right:30px;" >
+			<p style="font-size:28px;">평균평점</p>
+			<p style="font-size:40px;  font-weight:bold;">{{CourseBoard.Total_StarPoint|mCalculateTotal:CourseBoard.Total_Count}}</p>
+			<p style="font-size:20px;">(5점 만점)</p>
+		</div>
+		<div style="text-align:center; margin-right:30px; display:flex; flex-direction: column;align-items: center;">
+			<p style="font-size:28px;">과제량</p>
+			<p >
+				{%if CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 10 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count > 7 %}
+				<span class="top-grade" >상</span>
+				{%elif CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 7 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count > 3 %}
+				<span class="middle-grade">중</span>
+				{%elif CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 3 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count >= 0 %}
+				<span class="bottom-grade">하</span>
+				{%endif%}
+			</p>
+		</div>
+		<div style="text-align:center; margin-right:30px; display:flex; flex-direction: column;align-items: center;">
+			<p style="font-size:28px;">난이도</p>
+			<p style=>
+				{%if CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 10 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count > 7  %}
+				<span class="top-grade">상</span>
+				{%elif CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 7 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count > 3 %}
+				<span class="middle-grade">중</span>
+				{%elif CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 3 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count >= 0 %}
+				<span class="bottom-grade">하</span>
+				{%endif%}
+			</p>
+		</div>
+		<div style="display:flex; flex-direction: column;">
+			<div style="display:flex;">
+					<div style=" margin-right:30px;">
+						<p class="body-name" style="font-size:25px;">시험방식</p>
+					</div>
+					<div style="display:flex;">
+						 {% if CourseBoard.Total_Mix >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Mix >= CourseBoard.Total_Long_Answer and CourseBoard.Total_Mix >= CourseBoard.Total_Unknown_Answer %}
+						<p class="exam-method">단답형</p>
+						<p class="exam-method">서술형</p>
+						<p class="exam-method method-active">혼합형</p>
+						<p class="exam-method">해당없음</p>
+						{% elif CourseBoard.Total_Short_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Short_Answer >= CourseBoard.Total_Long_Answer and CourseBoard.Total_Short_Answer >= CourseBoard.Total_Unknown_Answer%}
+						<p class="exam-method  method-active">단답형</p>
+						<p class="exam-method">서술형</p>
+						<p class="exam-method">혼합형</p>
+						<p class="exam-method">해당없음</p>
+						{% elif CourseBoard.Total_Long_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Long_Answer >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Long_Answer >= CourseBoard.Total_Unknown_Answer %}
+						<p class="exam-method">단답형</p>
+						<p class="exam-method method-active">서술형</p>
+						<p class="exam-method">혼합형</p>
+						<p class="exam-method">해당없음</p>
+						{% elif CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Long_Answer%}
+						<p class="exam-method">단답형</p>
+						<p class="exam-method">서술형</p>
+						<p class="exam-method method-active">혼합형</p>
+						<p class="exam-method">해당없음</p>
+						{%endif%}
+					</div>
+			</div>
+		
+			<div style="display:flex;">
+				<div style="margin-right:30px;">
+					<p class="body-name" style="font-size:25px;">수업방식</p>
+				</div>
+				<div style="display:flex;">
+					{% if CourseBoard.Total_Ppt_Like >= CourseBoard.Total_Book_Like and CourseBoard.Total_Ppt_Like >= CourseBoard.Total_Practice_Like %}
+
+					<p class="course-method method-active">PPT</p>
+					<p class="course-method">교재</p>
+					<p class="course-method">실습</p>
+					{% elif CourseBoard.Total_Book_Like >= CourseBoard.Total_Ppt_Like and CourseBoard.Total_Book_Like >= CourseBoard.Total_Practice_Like %}
+					
+					<p class="course-method">PPT</p>
+					<p class="course-method method-active">교재</p>
+					<p class="course-method">실습</p>
+					{% elif CourseBoard.Total_Practice_Like >= CourseBoard.Total_Ppt_Like and CourseBoard.Total_Practice >= CourseBoard.Total_Book_Like %}
+					<p class="course-method">PPT</p>
+					<p class="course-method">교재</p>
+					<p class="course-method method-active">실습</p>
+					{%endif%}
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div>
+		<p style="margin-top:10px; width:100%; font-size:20px; text-align: right; color:green;">총 {{CourseBoard.Total_Count}}개 평가</p>
+	</div>
+	
+	<div class="m-single-course-container">
+		<div  class="content">
+			<div style="text-align: center; margin-right:30px;" >
+				<p style="font-size:28px;">평점</p>
+				<p class="starvalue" style="font-size:20px;  font-weight:bold;">{{CourseBoard.Total_StarPoint|calculateTotal:CourseBoard.Total_Count}}</p>
+				<p style="font-size:20px;">(5점 만점)</p>
+			</div>
+			<div style="text-align:center; margin-right:30px; display:flex; flex-direction: column;align-items: center;">
+				<p style="font-size:28px;">과제량</p>
+				<p >
+					{%if CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 10 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count > 7 %}
+					<span class="top-grade" >상</span>
+					{%elif CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 7 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count > 3 %}
+					<span class="middle-grade">중</span>
+					{%elif CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count <= 3 and CourseBoard.Total_Homework|calculateTotal:CourseBoard.Total_Count >= 0 %}
+					<span class="bottom-grade">하</span>
+					{%endif%}
+				</p>
+			</div>
+			<div style="text-align:center; margin-right:30px; display:flex; flex-direction: column;align-items: center;">
+				<p style="font-size:28px;">난이도</p>
+				<p style=>
+					{%if CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 10 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count > 7  %}
+					<span class="top-grade">상</span>
+					{%elif CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 7 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count > 3 %}
+					<span class="middle-grade">중</span>
+					{%elif CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count <= 3 and CourseBoard.Total_Level_Difficulty|calculateTotal:CourseBoard.Total_Count >= 0 %}
+					<span class="bottom-grade">하</span>
+					{%endif%}
+				</p>
+			</div>
+			<div style="display:flex; flex-direction: column;">
+				<div style="display:flex;">
+						<div style=" margin-right:30px;">
+							<p class="body-name" style="font-size:25px;">시험방식</p>
+						</div>
+						<div style="display:flex;">
+							 {% if CourseBoard.Total_Mix >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Mix >= CourseBoard.Total_Long_Answer and CourseBoard.Total_Mix >= CourseBoard.Total_Unknown_Answer %}
+							<p class="exam-method">단답형</p>
+							<p class="exam-method">서술형</p>
+							<p class="exam-method method-active">혼합형</p>
+							<p class="exam-method">해당없음</p>
+							{% elif CourseBoard.Total_Short_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Short_Answer >= CourseBoard.Total_Long_Answer and CourseBoard.Total_Short_Answer >= CourseBoard.Total_Unknown_Answer%}
+							<p class="exam-method  method-active">단답형</p>
+							<p class="exam-method">서술형</p>
+							<p class="exam-method">혼합형</p>
+							<p class="exam-method">해당없음</p>
+							{% elif CourseBoard.Total_Long_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Long_Answer >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Long_Answer >= CourseBoard.Total_Unknown_Answer %}
+							<p class="exam-method">단답형</p>
+							<p class="exam-method method-active">서술형</p>
+							<p class="exam-method">혼합형</p>
+							<p class="exam-method">해당없음</p>
+							{% elif CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Mix and CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Short_Answer and CourseBoard.Total_Unknown_Answer >= CourseBoard.Total_Long_Answer%}
+							<p class="exam-method">단답형</p>
+							<p class="exam-method">서술형</p>
+							<p class="exam-method method-active">혼합형</p>
+							<p class="exam-method">해당없음</p>
+							{%endif%}
+						</div>
+				</div>
+			
+				<div style="display:flex;">
+					<div style="margin-right:30px;">
+						<p class="body-name" style="font-size:25px;">수업방식</p>
+					</div>
+					<div style="display:flex;">
+						{% if CourseBoard.Total_Ppt_Like >= CourseBoard.Total_Book_Like and CourseBoard.Total_Ppt_Like >= CourseBoard.Total_Practice_Like %}
+
+						<p class="course-method method-active">PPT</p>
+						<p class="course-method">교재</p>
+						<p class="course-method">실습</p>
+						{% elif CourseBoard.Total_Book_Like >= CourseBoard.Total_Ppt_Like and CourseBoard.Total_Book_Like >= CourseBoard.Total_Practice_Like %}
+						
+						<p class="course-method">PPT</p>
+						<p class="course-method method-active">교재</p>
+						<p class="course-method">실습</p>
+						{% elif CourseBoard.Total_Practice_Like >= CourseBoard.Total_Ppt_Like and CourseBoard.Total_Practice >= CourseBoard.Total_Book_Like %}
+						<p class="course-method">PPT</p>
+						<p class="course-method">교재</p>
+						<p class="course-method method-active">실습</p>
+						{%endif%}
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div style="display:flex; flex-direction: column;">
+			<div class="hidden-comment">
+				<div>
+					<p>상세평가</p><div class="ui divider"></div>
+				</div>
+				<div class="data-comment">{{Board.CourseComment|linebreaks}}</div>
+			</div>
+			<div class="open-comment"><center>상세 더보기</center></div>
+		</div>
+		<div></div>
+		<span>날짜</span><span>|</span><span style="font-size:20px; color:rgb(164,185,182);">{{Board.CreatedID.UserName}}</span><span style="color:rgb(164,185,182);">님의 평가</span>
+	</div>
+
+	<div>강의 더보기</div>
+	<div><a href="/Recommend"><button class="course-recommend"><span style="" id="btntext">강의 평가하러가기</span></button></a></div>
+
+{% endblock %}

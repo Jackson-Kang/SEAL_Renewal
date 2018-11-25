@@ -1,0 +1,276 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	{% load static from staticfiles %}
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/bootstrap.css' %}">
+	
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic/semantic.css' %}" />
+
+	<link href="{% static 'm_css/easyautocomplete.css' %}" rel='stylesheet' type='text/css'>
+	<link href="{% static 'm_css/easyautocomplete-theme.css' %}" rel='stylesheet' type='text/css'>
+	
+
+    <script type="text/javascript" src="{% static 'js/jquery.3.2.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'node_modules/angular/angular.js' %}" ></script>
+
+	
+ 	<script type="text/javascript" src="{% static 'js/easyautocomplete.js' %}"></script>
+
+	<script src="https://use.fontawesome.com/bb431e8a94.js"></script>
+
+ 	<script type="text/javascript" src="{% static 'm_js/base.js' %}"></script>
+ 	<script type="text/javascript" src="{% static 'js/star.js' %}"></script>
+ 	<script type="text/javascript" src="{% static 'js/semantic/semantic.js' %}"/>
+ 	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+	<link rel="stylesheet" href="{% static 'm_css/material.css' %}">
+	<script src="{% static 'm_js/material.min.js' %}"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" type="text/css" href="{% static 'm_css/base.css' %}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<link href="{% static 'css/easyautocomplete.css' %}" rel='stylesheet' type='text/css'>
+	<link href="{% static 'css/easyautocomplete-theme.css' %}" rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="{% static 'js/easyautocomplete.js' %}"></script>
+
+
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-73113207-1');
+	</script>
+
+	{% block head %}
+     
+    {% endblock%}
+   	<title> {% block title %} SEAL - Login {% endblock %}</title>
+   	<link rel="shortcut icon" href="{% static "css/seal_title.png" %}">
+   	<style>
+   		header{
+	height:150px;	
+}
+
+
+#profile-container
+{
+	width:200px;
+	box-shadow: 1px 1px 1px;
+}
+   	</style>
+   	<script>
+   		$(document).ready(function()
+   		{	
+
+   			$("#m_search_button").on("click",function(){
+   				if($("#search_input").hasClass("search_active")){
+   					$("#search_input").removeClass("search_active");
+   					$("#search_input").fadeOut();
+   				}
+   				else{
+   					$("#search_input").addClass("search_active");	
+   					$("#search_input").css("display","flex").hide().fadeIn();
+   				}
+   			});
+   			$("[name=search]").on("focusout",function(){
+
+   				$("#eac-container-search_input ul").css("display","none");
+
+   			})
+   			  $('div').on("click", "#update_button", function () {
+				    $(".ui.modal").modal("setting", {
+				        closable: true,
+				        onApprove: function () {
+				            return false;
+				        }
+				    }).modal("show");
+				}).on("click", ".ui.button", function () {
+				    switch ($(this).data("value")) {
+				        case 'close':
+				            $(".ui.modal").modal("hide");
+				            break;
+				    }
+				});
+   			$("div").on("mouseenter",".item-search",function()
+   			{
+   				event.stopPropagation();
+
+   				$("[name=search]").val($(this).text())
+				$("#eac-container-search_input ul").css("display","none")
+   			})
+   			$("#course-cancel").on("click",function(){
+   				$("[name=search]").val("");
+   			})
+   			
+			$("")
+
+   			$(".all_course").dropdown();
+   			var options = {
+			  url: function(phrase) {
+			    return "/AutoSearch/";
+			  },
+			  getValue: function(element) {
+			    return element.CourseName;
+			  },
+			  list: {	
+			    match: {
+					enabled: true
+				},
+				maxNumberOfElements: 8
+			  },
+			  ajaxSettings:{
+			  	dataType: "json",
+			    method: "GET",
+			 	data:{
+			 	}
+			   
+			  },
+			  preparePostData: function(data) {
+			  
+			    data.phrase = $("[name=search]").val();
+			    data.csrfmiddlewaretoken=$("[name=csrfmiddlewaretoken]").val();
+			    return data;
+			  },
+			  template: {
+				type: "custom",
+				method: function(value, item) {
+					return "<div style='display:flex; padding:20 0 20 0;'><p class='item-search' style='width:100%; color:black; font-size:40px; margin:0px;'>" + value+ "</p></div>"
+				}
+
+			  },
+			  
+			  requestDelay: 500
+			  
+		};
+
+		$("#search_input").easyAutocomplete(options);
+
+   		})
+   		
+   	</script>
+</head>
+
+
+<body>
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+            mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div id="m_header_layout" class="mdl-layout__header-row">
+     
+      <div class="mdl-layout-spacer">
+      		<div id = "logobox">
+				<div>
+					<p class="m_title_site"><a href="/">SEAL</a></p>
+				</div>
+				<div>
+					<p class="m_title_school"> 한동대학교</p>
+					<p class = "m_title_name">강의평가 시스템</p>
+				</div>
+			</div>
+      </div>
+      <div id = "m_search_div" class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                  mdl-textfield--floating-label mdl-textfield--align-right">
+        <label id="m_search_button">
+          <i class="material-icons">search</i>
+        </label>
+      </div>
+      
+    </div>
+    <div id="search_input" style="display:none;" class="">
+    	<form id="searchForm" name="searchForm"  action="/Search/" meth="GET">
+          <input class="m_search_data" type="text" name="search"
+                 id="fixed-header-drawer-exp" placeholder="수업명 혹은 교수명을 입력하세요" value="{{search}}">
+           <i id="course-cancel" class="far fa-times-circle" aria-hidden="true"></i>
+         </form>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer" id="layout_drawer_left">
+    <div class="user_info">
+ 		<div id="user_name_content" >
+ 			<div><span class="user_name">{{user.profile.UserName}}</span><a href="/MyPage"><i id="user-edit" class="fas fa-cog"></i></a></div>
+ 			<a id="logout_btn" href="/Logout"><i style="float:right;" class="fas fa-times"></i></a></div>
+ 		<div><span class="user_major">{{user.profile.FirstMajor}}</span></div>
+ 		<div style="border-bottom: 3px solid black; margin-top:30px; margin-bottom:50px;">&nbsp;</div>
+ 		<div class="user_info_seal"><span style="font-size:50px;">My Seal</span><span style="font-size:50px;"><span style="font-weight: bold;	" >{{user.profile.RecommendCount}}</span>개</span></div>
+	</div>
+
+    <nav class="user_nav">
+      <a class="nav_menu" href="/MyPage"><i style="margin-right:10px;"  class="fas fa-book-reader"></i><span>마이 페이지</span></a>
+      <!--<a style="width:130px;" class="nav_menu" href="Course/"><i style="margin-right:10px;"  class="fas fa-book-open"></i><span>강의 평가 열람</span></a>-->
+      <a class="nav_menu" href=""><i style="margin-right:10px;"  class="fas fa-sticky-note"></i>	<span >강의 평가 작성</span></a>
+      <a class="nav_menu" href="/SugangChange/"><i style="margin-right:10px;" class="fas fa-exchange-alt"></i><span>수업 교환</span></a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+  	{% block nav %}
+	{% endblock %}
+    <article>
+		<section >
+		{% block content %} 
+
+		{% endblock %}
+		</section>
+		{% if not user == None%}
+
+
+</article>
+{% block bottom %}
+{% endblock %}
+  </main>
+</div>
+<!--
+<header>
+	<div class="head-container">
+		<div id = "logobox">
+			<div>
+				<p><a href="/">SEAL</a></p>
+			</div>
+			<div>
+				<p>한동대학교</p>
+				<p>강의평가 시스템</p>
+			</div>
+		</div>
+		<form id="searchForm" name="searchForm"  action="/Search/" method="GET">
+			{%csrf_token%}
+			<div id="search-box">
+				<input type="text" id="search" name="search" placeholder="수업명이나 교수님명을 입력하세요">
+				<i id="course-search" class="fa fa-search" aria-hidden="true"></i>
+			</div>
+		</form>
+		<div class="head-list">
+			<ul>
+				<li>Notice</li>
+				<li>HELP</li>
+				<li><a style="color:rgb(191,169,166);" href="/Logout">Logout</a></li>
+			</ul>
+		</div>
+	</div>
+	
+</header>-->
+
+<main style="padding-top:30px;">
+
+</main>
+<footer style="display:flex; justify-content: space-around;">
+	<div style="width:100%; text-align: center;">
+		한동대학교 강의평가 시스템 SEAL
+	</div>
+	<div style="width:100%; text-align: center;">
+		디자이너 - 이선혜 개발 - powerd by CRA
+	</div>
+	<div style="width:100%; text-align: center;">
+		페이지 리뉴얼 - 2017/12/09
+	</div>
+
+</footer>	
+{%endif%}
+
+</body>
+
+
+
+</html>

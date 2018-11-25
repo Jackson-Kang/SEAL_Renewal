@@ -1,0 +1,120 @@
+{% extends "m_html/base.html" %}
+{% block head %}
+	{% load static from staticfiles %}
+   {% load app_filter %}
+   
+    <link rel="stylesheet" type="text/css" href="{% static 'm_css/index.css' %}" />
+    <script type="text/javascript" src="{% static 'm_js/index.js' %}"></script>
+    <title>SEAL</title>
+    
+    <script>
+    $(document).ready(function()
+    {
+      getList();
+      $(".select_content").on("change",function()
+      {
+      	event.stopPropagation();
+        getList();      
+      })
+    function getList()
+    {
+      var category = $("#category").val();
+        var major= $("#major").val();
+        var ordered=$("#ordered").val();
+        $.ajax({ 
+              url : "/Category_Change/",
+              data : {
+                      'category':category,
+                      'major':major,
+                      'ordered':ordered,
+                      'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken]").val()
+                    },
+              
+             
+              type : "GET",
+              async : false,
+              beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                //}
+              }
+              },
+              
+              success:function(resp){     
+                     $(".course-page").html(resp);
+                     $('span.starvalue').starvalue();
+
+                    
+               },
+                error: function(xhr, option, error){
+                  alert(xhr.status); //오류코드
+                  alert(error); //오류내용
+
+                } 
+          });
+      
+    }
+  });
+    </script>
+{% endblock %}
+{% block nav %}
+<nav>
+		<form id = "category_subject_search" action="/Search" method="POST">
+			{%csrf_token%}
+	    	<div class="nav-container">
+  		    <div class= "category_content">
+            <select id="major" class="menu select_content">
+              <option class="item category_item" value="0">전체</option>
+              <option class="item category_item" value="글로벌리더십">글로벌리더십학부</option>
+              <option class="item category_item" value="국제어문">국제어문학부</option>
+              <option class="item category_item" value="경영경제">경영경제학부</option>
+              <option class="item category_item" value="언론정보">언론정보문화학부</option>
+              <option class="item category_item" value="공간환경">공간환경시스템공학부</option>
+              <option class="item category_item" value="기계제어">기계제어공학부</option>
+              <option class="item category_item" valuee="콘텐츠">콘텐츠융합디자인학부</option>
+              <option class="item category_item" value="생명과학">생명과학부</option>
+              <option class="item category_item" value="전산전자">전산전자공학부</option>
+              <option class="item category_item" value="상담심리">상담싱리사회복지학부</option>
+              <option class="item category_item" value="ICT">ICT창업학부</option>
+              <option class="item category_item" value="창의융합">창의융합교육원</option>
+            </select>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+          </div>
+          <div  class= "category_content">
+            <select id="category" class="menu select_content">
+                    <option class="item category_item" value="0">전체</option>
+                    <option class="item category_item" value="전필">전공필수</option>
+                    <option class="item category_item" value="전선">전공선택</option>
+                    <option class="item category_item" value="교필">교양필수</option>
+                    <option class="item category_item" value="교선">교양선택</option>
+            </select>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+          </div>
+          
+  		    <div class= "category_content">
+            <select id="ordered" class="menu select_content">
+                    <option class="item category_item" value="최신순">최신순</option>
+                    <option class="item category_item" value="인기순">추천순</option>
+            </select>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+          </div>
+          
+  		</div>
+		    
+		</form>
+		
+			
+
+</nav>
+{% endblock %}
+{% block content %}  
+
+<div class="course-page">
+      <div class="course-list">
+      
+      </div>  
+    
+</div>      
+
+
+{% endblock %} 

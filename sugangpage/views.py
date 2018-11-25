@@ -17,10 +17,18 @@ class SugangPageView(LoginRequiredMixin,PageView):
 	context_object_name="SugangList"
 	renew_professor_name=""
 	def get_template_names(self):
+		flavour = self.request.flavour
 		if 'page' in self.kwargs:
+			if flavour == "mobile":
+				template_name = "m_html/sugangpage.html"
+			else:
+				template_name="html/sugangpage.html"
 			template_name="html/sugangpage.html"
 		else:
-			template_name="html/sugang.html"
+			if flavour == "mobile":
+				template_name = "m_html/sugang.html"
+			else:
+				template_name="html/sugang.html"
 		return 	[template_name]	
 	
 	def get_queryset(self):
