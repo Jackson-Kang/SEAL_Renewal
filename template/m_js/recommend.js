@@ -1,23 +1,19 @@
 $(document).ready(function()
-	{$('.stars').on("click", "input",function(event){
+
+	{	
+		if($("[name=CourseComment]").attr("data") !="" || $("[name=CourseComment]").attr("data")  != "undefined"){
+			var data =$("[name=CourseComment]").attr("data");
+			data = data.replace(/<(\/?)p>/gi,"");
+			data = data.replace(/(<br>)|(<br \/>)/gi,"\n");
+			$("[name=CourseComment]").val(data);
+			
+		}
+
+		$('.rate').on("click", "input",function(event){
 		    event.stopPropagation();
 		    $(this).unbind("click");
-		    var splitdata = $(this).attr("id");
-		    splitdata = splitdata.split("-");
-		    var starcount = splitdata[1];
-		    $("#StarValue").val(starcount);
-		    var object = $("[name='star']");
-			$("label.star").css("background","url(/static/assets/icon/star.png) 0 -20px")
-			object.each(function()
-			{
-				if($(this).prop("checked"))
-				{
-					$(this).next().css("background","url(/static/assets/icon/star.png)");
-					return false;
-				}
-
-				$(this).next().css("background","url(/static/assets/icon/star.png)");
-			})
+		    
+		    $("#StarValue").val($(this).val());
 		 });
  		$("div").on("click",".recommend-course-search",function()
  		{
@@ -25,73 +21,51 @@ $(document).ready(function()
  			$("#Semester").val("")
 
  		})
-		$("div").on("click",".homework-count",function()
+		$("div").on("click",".homework-count",function(event)
 		{
+			event.stopPropagation();
 			var object = $(this);
 			var img;
-			if(object.hasClass("img-top"))
-			{
-				img="mid";
-				$(this).removeClass("img-top");
-				$(this).addClass("img-mid");
-				$('[name=homework-count]').val('5');
-			}
-			else if(object.hasClass("img-mid"))
-			{
-				img="bottom";
-				$(this).removeClass("img-mid");
-				$(this).addClass("img-bottom");
-				$('[name=homework-count]').val('1');
-			}
-			else if(object.hasClass("img-bottom"))
-			{
-				img="top";
-				$(this).removeClass("img-bottom");
-				$(this).addClass("img-top");
-
-				$('[name=homework-count]').val('9');
-			}
-
-			$(this).find("img").attr("src","/static/assets/icon/"+img+".png");
+			$(".homework-count").removeClass("top-grade2");
+			$(".homework-count").removeClass("middle-grade2");
+			$(".homework-count").removeClass("bottom-grade2");
+			$(".homework-count").addClass("normal-grade2");
+			if($(this).text() == "상") {$(this).addClass("top-grade2"); $('[name=homework-count]').val('9'); $(this).removeClass("normal-grade2");}
+			else if($(this).text() == "중"){ $(this).addClass("middle-grade2"); $('[name=homework-count]').val('5'); $(this).removeClass("normal-grade2");}
+			else if($(this).text() == "하"){ $(this).addClass("bottom-grade2"); $('[name=homework-count]').val('1'); $(this).removeClass("normal-grade2");}
+			
 		});
-		$("div").on("click",".level-diff",function()
+		$("div").on("click",".level-diff",function(event)
 		{
+			event.stopPropagation();
+			$(".level-diff").removeClass("top-grade2");
+			$(".level-diff").removeClass("middle-grade2");
+			$(".level-diff").removeClass("bottom-grade2");
+			$(".level-diff").addClass("normal-grade2");
+			if($(this).text() == "상") {
+				$(this).addClass("top-grade2");
+				$('[name=level-diff]').val('9');
+				$(this).removeClass("normal-grade2");
+			}
+			else if($(this).text() == "중"){ 
+				$(this).addClass("middle-grade2");
+				$('[name=level-diff]').val('5');
+				$(this).removeClass("normal-grade2");
+			}
+			else if($(this).text() == "하") 
+			{
+				$(this).addClass("bottom-grade2");
+				$('[name=level-diff]').val('1');	
+				$(this).removeClass("normal-grade2");
+			}
 
-			var object = $(this);
-			var img;
-			if(object.hasClass("img-top"))
-	 		{
-				img="mid";
-				$(this).removeClass("img-top");
-				$(this).addClass("img-mid");
-
-	 			$('[name=level-diff]').val('5');
-	 		}
-	 		else if(object.hasClass("img-mid"))
-	 		{
-	 			img="bottom";
-	 			$(this).removeClass("img-mid");
-	 			$(this).addClass("img-bottom");
-
-	 			$('[name=level-diff]').val('1');
-	 		}
-	 		else if(object.hasClass("img-bottom"))
-	 		{
-	 			img="top";
-	 			$(this).removeClass("img-bottom");
-	 			$(this).addClass("img-top");
-
-	 			$('[name=level-diff]').val('9');
-	 		}
-
-	 		$(this).find("img").attr("src","/static/assets/icon/"+img+".png");
-		
 		});	
 	 	
 		$('div').on("click",".exam-method",function(event)
 		{
 			event.stopPropagation();
 			$(".exam-method").removeClass("method-active");
+			$("[name='paper_value[]']").val("0");
 			if($(this).hasClass("method-active"))
 			{
 				$(this).removeClass('method-active');
@@ -107,6 +81,7 @@ $(document).ready(function()
 		$('div').on("click",".course-method",function()
 		{
 			event.stopPropagation();
+
 			if($(this).hasClass("method-active"))
 			{
 				$(this).removeClass('method-active');
@@ -229,41 +204,41 @@ $(document).ready(function()
 
 	});
 
-$(document).ready(function(){
-		$("#RecommendForm").form({
-			on:'submit',
-		    inline : true,
-			fields:{
-				Semester:{
-					identifier:'Semester',
-					rules:[
-						{
-							type : 'empty',
-							prompt : '학기를 입력을 하지 않았습니다.'
-						},
-						{
-							type : 'notExactly[0]',
-							prompt : "학기가 입력되지 않았습니다."
-						},
+// $(document).ready(function(){
+// 		$("#RecommendForm").form({
+// 			on:'submit',
+// 		    inline : true,
+// 			fields:{
+// 				Semester:{
+// 					identifier:'Semester',
+// 					rules:[
+// 						{
+// 							type : 'empty',
+// 							prompt : '학기를 입력을 하지 않았습니다.'
+// 						},
+// 						{
+// 							type : 'notExactly[0]',
+// 							prompt : "학기가 입력되지 않았습니다."
+// 						},
 						
-					]
-				},
-				Course:{
-					identifier:'Professor',
-					rules:[
-						{
-							type : 'empty',
-							prompt : '수업이 입력되지 않았습니다.'
-						}
-					]
-				}
-			},
-			templates:{
-				error : function(errors)
-				{
-					return $("<div/>").addClass("ui red prompt label").html(errors[0])
-				}
-			}
-		})
-	})
+// 					]
+// 				},
+// 				Course:{
+// 					identifier:'Professor',
+// 					rules:[
+// 						{
+// 							type : 'empty',
+// 							prompt : '수업이 입력되지 않았습니다.'
+// 						}
+// 					]
+// 				}
+// 			},
+// 			templates:{
+// 				error : function(errors)
+// 				{
+// 					return $("<div/>").addClass("ui red prompt label").html(errors[0])
+// 				}
+// 			}
+// 		})
+// 	})
 		

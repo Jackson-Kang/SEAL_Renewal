@@ -74,6 +74,9 @@
    					$("#search_input").addClass("search_active");	
    					$("#search_input").css("display","flex").hide().fadeIn();
    				}
+   				$("#search_input").parent().css("width","100%");
+ 	$("#search_input").parent().css("display","flex");
+ 	$("#search_input").parent().css("justify-content","center");
    			});
    			$("[name=search]").on("focusout",function(){
 
@@ -201,8 +204,8 @@
     <nav class="user_nav">
       <a class="nav_menu" href="/MyPage"><i style="margin-right:10px;"  class="fas fa-book-reader"></i><span>마이 페이지</span></a>
       <!--<a style="width:130px;" class="nav_menu" href="Course/"><i style="margin-right:10px;"  class="fas fa-book-open"></i><span>강의 평가 열람</span></a>-->
-      <a class="nav_menu" href=""><i style="margin-right:10px;"  class="fas fa-sticky-note"></i>	<span >강의 평가 작성</span></a>
-      <a class="nav_menu" href="/SugangChange/"><i style="margin-right:10px;" class="fas fa-exchange-alt"></i><span>수업 교환</span></a>
+      <a class="nav_menu" href="/Recommend"><i style="margin-right:10px;"  class="fas fa-sticky-note"></i>	<span >강의 평가 작성</span></a>
+      <!--<a class="nav_menu" href="/SugangChange/"><i style="margin-right:10px;" class="fas fa-exchange-alt"></i><span>수업 교환</span></a>-->
     </nav>
   </div>
   <main class="mdl-layout__content">

@@ -130,25 +130,25 @@
             <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-homework">
               
               {%if PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 10 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count > 7 %}
-              <span  style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              <span  style="font-size:25px;">과제량</span><span class="top-grade" >상</span>
               {%elif PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 7 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count > 3%}
-              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/mid.png' %}"></span>
+              <span style="font-size:25px;">과제량</span><span class="middle-grade" >중</span>
               
               {%elif PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count <= 3 and PBoard1.Total_Homework|calculateTotal:PBoard1.Total_Count >= 0 %}
-              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/bottom.png' %}"></span>
+              <span style="font-size:25px;">과제량</span><span class="bottom-grade" >하</span>
               {%else%}
-              <span style="font-size:25px;">과제량</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              <span style="font-size:25px;">과제량</span><span class="top-grade" >상</span>
               {%endif%}
             </div>
             <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-difficulty">
               {%if PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 10 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count  > 7 %}
-              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              <span style="font-size:25px;">난이도</span><span class="top-grade" >상</span>
               {%elif PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 6 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count > 3 %}
-              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/mid.png' %}"></span>
+              <span style="font-size:25px;">난이도</span><span class="middle-grade" >중</span>
               {%elif PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count <= 3 and PBoard1.Total_Level_Difficulty|calculateTotal:PBoard1.Total_Count >= 0 %}
-              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/bottom.png' %}"></span>
+              <span style="font-size:25px;">난이도</span><span class="bottom-grade" >하</span>
               {%else%}
-              <span style="font-size:25px;">난이도</span><span class="eval-token"><img style="width:70px; height:70px;" src="{% static 'assets/icon/top.png' %}"></span>
+              <span style="font-size:25px;">난이도</span><span class="top-grade" >상</span>
               {%endif%}
             </div>
             <div style="display:flex; flex-direction:column; justify-content: space-around;" class="course-eval">

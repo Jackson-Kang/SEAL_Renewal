@@ -24,7 +24,7 @@
 	</div>
 		<div style="margin-top:30px; margin-bottom:30px; display:flex;" class= "c-e-hedaer">
 			<div style="width:60%; height:50px;  display:flex;" class="c-e-search-box">
-				<input style="height:50px; width:100%; font-size:25px; font-weight:bold; background-color: rgb(240,240,240);" id ='recommend-course-search' type="text" placeholder="수업검색">
+				<input style="height:50px; width:100%; font-size:25px; font-weight:bold; background-color: rgb(242,242,242);" id ='recommend-course-search' type="text" placeholder="수업검색">
 				
 				<div class="search-item-list"></div>
 				<div class="field" style="width:100px;">
@@ -33,7 +33,7 @@
 				<input type="hidden" id="CourseName" name="CourseName" value="">
 				<input type="hidden" id="Code" name="Code" value="">
 			</div>
-			<div>
+			<div style="width:40%;">
 				<div style="padding:0px; " class="select-box"> 
 			      	<div class="ui small form">
 			            <div class="ui selection dropdown all_course" style="height:50px; display:flex; align-items: center;">
@@ -54,84 +54,80 @@
 		</div>
 		<div class= "c-e-body">
 			<div class="body-content">
-				<div style="background-color:gray; margin-top:15px; margin-bottom:30px;">
+				<div style="background-color:rgb(242,242,242); margin-top:15px; margin-bottom:30px; border-radius: 10px; padding:15 0 15 0;"  >
 					<p style="padding-left:15px; font-size:30px;" class="content-name">평점</p>
 					<div style="display:flex; justify-content: center;">
-						<div class="stars">
-							<input class="star star-1" id="star-1" type="radio" name="star"/>
-			                <label class="star star-1" for="star-1"></label>
-			                <input class="star star-2" id="star-2" type="radio" name="star"/>
-			                <label class="star star-2" for="star-2"></label>
-			                <input class="star star-3" id="star-3" type="radio" name="star"/>
-			                <label class="star star-3" for="star-3"></label>
-			           
-			                <input class="star star-4" id="star-4" type="radio" name="star"/>
-			                <label class="star star-4" for="star-4"></label>
-			                <input class="star star-5" id="star-5" type="radio" name="star"/>
-			                <label class="star star-5" for="star-5"></label>
-			                
-			                
-			            </div>
-			            <input type="hidden" id = "StarValue" name = "StarValue" value = "0">
-					</div>
-				</div>
-				<div style="display:flex; ">
-					<div>
-						<p class="content-name">과제량</p>
-						<p class="homework-count img-top">
-							
-							<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
-							<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
-							<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
+						<div class="rate">
+						  <input type="radio" id="star5" name="StarValue" value="5" />
+						  <label for="star5" title="text">5 stars</label>
+						  <input type="radio" id="star4" name="StarValue" value="4" />
+						  <label for="star4" title="text">4 stars</label>
+						  <input type="radio" id="star3" name="StarValue" value="3" />
+						  <label for="star3" title="text">3 stars</label>
+						  <input type="radio" id="star2" name="StarValue" value="2" />
+						  <label for="star2" title="text">2 stars</label>
+						  <input type="radio" id="star1" name="StarValue" value="1" />
+						  <label for="star1" title="text">1 star</label>
+						</div>
 						
-						</p>
-						<div style="position:relative; width:0px; top:30px; left:-40px; font-size:7px; color:rgb(156,193,170);"><p style="width:130px;">클릭하여 상중하를 바꿉니다.</p></div>
+			        </div>
+				</div>
+				<div style="display:flex; justify-content: space-between; ">
+					<div style="width:48%; background-color:rgb(242,242,242); display:flex; flex-direction: column; border-radius: 10px; margin">
+						<p class="content-name" style="margin-left:15px; margin-top:20px;font-size:25px;">과제량</p>
+						<div style="margin-top:10px; width : 100%; align-self:center; margin-bottom:15px; display:flex; justify-content: center;">
+							<span style = "margin-left:10%; margin-right:10%; font-size:35px;" class="normal-grade2 homework-count">상</span>
+							<span style = "margin-right:10%;font-size:35px;" class="normal-grade2 homework-count">중</span>
+							<span style = "margin-right:10%; font-size:35px;" class="normal-grade2 homework-count" >하</span>
+							<input name="homework-count" type="hidden"  value="9">
+						</div>
+					
 					</div>
-					<div>
-						<p style="padding-right:15px;">난이도</p>
-						<p class="level-diff img-top">
-							<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
-							<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
-							<img style="width:30px; height:30px;" src="{% static 'assets/icon/top.png' %}">
+					<div style="width:48%; background-color:rgb(242,242,242); display:flex; flex-direction: column; border-radius: 10px;">
+						<p style="margin-left:15px; margin-top:20px; padding-right:15px; font-size:25px;">난이도</p>
+						<div style="margin-top:10px; width:100%; align-self:center; margin-bottom:20px; display:flex; justify-content: center;"  class=" img-top" >
+							<span style = "margin-left:10%; margin-right:10%; font-size:35px; " class="normal-grade2 level-diff">상</span>
+							<span style = "margin-right:10%; font-size:35px;" class="normal-grade2 level-diff">중</span>
+							<span style = "margin-right:10%; font-size:35px;" class="normal-grade2 level-diff">하</span>
 							<input name="level-diff" type="hidden"  value="9">
 					
-						</p>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="body-content" style="display:flex;">
-				<div>
-					<div class="body-table-name" >
-						<p class="content-name">시험방식</p>
+			<div class="body-content" style="display:flex; margin-top:15px;margin-bottom:15px; background-color:rgb(242,242,242); padding:20px; border-radius: 10px;">
+				<div style="width:60%;" >
+					<div class="body-table-name" style="margin-bottom:15px;"  >
+						<p class="content-name" style="font-size:25px;">시험방식</p>
 					</div>
-					<div class="body-table-content" >
+					<div style="display:flex;"class="body-table-content" >
 						
-						<p class="exam-method" value="1000">단답형</p>
+						<p class="exam-method" style="font-size :20px; " value="1000">단답형</p>
 						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="0" >
-						<p class="exam-method" value="100">서술형</p>
+						<p class="exam-method" style="font-size :20px; "  value="100">서술형</p>
 						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="0">
-						<p class="exam-method" value="10">혼합형</p>
+						<p class="exam-method" style="font-size :20px; "  value="10">혼합형</p>
 						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="0">
-						<p class="exam-method" value="1">해당없음</p>
+						<p class="exam-method" style="font-size :20px; "  value="1">해당없음</p>
 						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="0">
 						
 					</div>
 				</div>
-				<div>
-					<div class="body-table-name" style="padding-left:20px;">
-						<p class="content-name">수업방식</p>
+				<div 	>
+					<div class="body-table-name" style="margin-bottom:15px;">
+						<p class="content-name" style="font-size:25px;">수업방식</p>
 					</div>
-					<div class="body-table-content">
-						<p class="course-method" value="100">PPT</p>
+					<div style="display:flex;" class="body-table-content">
+						<p class="course-method" style="font-size :20px;"  value="100">PPT</p>
 						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="0">
-						<p class="course-method" value="10">교재</p>
+						<p class="course-method" style="font-size :20px;"  value="10">교재</p>
 						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="0">
-						<p class="course-method" value="1">실습</p>
+						<p class="course-method" style="font-size :20px; "  value="1">실습</p>
 						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="0">
 					</div>
 				</div>
 			</div>
-
+			<!--
 			<div class="body-content" style="display:flex; align-items: center;">
 				<input  type="hidden" name="MAX_FILE_SIZE" value="30000" />
 				<div style="width:50px;">
@@ -143,21 +139,21 @@
 				<div class="jubo" style="width:70%;">
 					
 				</div>
-			</div>
+			</div>-->
 		</div>
 
 		<div class= "c-e-footer" style="display:flex;flex-direction: column; margin:30 0 0 0;">
-			<div style="background-color:rgb(92,154,114); border-radius: 30px; padding:30 30 30 30;">
+			<div style="background-color:rgb(153,204,187); border-radius: 10px; padding:20 20 20 20;">
 				<div style="padding:0 0 10 0; display:flex; align-items: center; ">
 					<p style="font-size:20px; font-weight:bold; margin:0px;">상세평가</p>
 					<div class="ui divider" style="width:90%;"></div>
 				</div>
-				<div class="text-area-information" style="height:180px; 	margin:10 0 10 0;">
-					<p>1. 교수님의 강의 방식</p>
-					<p>2. 과제, 퀴즈, 시험, 팀 프로젝트 빈도</p>
-					<p>3. 본인이 체감하는 난이도</p>
-					<p>4. 추천하고 싶은 대상 (ex. 전공 새내기, 막학기, 군 복학생)</p>
-					<p>5. 그 외의 기타 의견 자유롭게 작성해 주세요:)</p>
+				<div class="text-area-information" style=" 	margin:10 0 10 0;">
+					<span>1. 교수님의 강의 방식</span><br>
+					<span>2. 과제, 퀴즈, 시험, 팀 프로젝트 빈도</span><br>
+					<span>3. 본인이 체감하는 난이도</span><br>
+					<span>4. 추천하고 싶은 대상 (ex. 전공 새내기, 막학기, 군 복학생)</span><br>
+					<span>5. 그 외의 기타 의견 자유롭게 작성해 주세요:)</span><br>
 				</div>
 			</div>
 			<div>
@@ -165,7 +161,7 @@
 				<div class="text-area" style="margin-top:30px;"> 
 					<div class="ui form">
 					  <div class="field">
-					    <textarea name="CourseComment" style="resize:none; z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background: white !important;" placeholder="상세평가를 적어주세요"></textarea>
+					    <textarea name="CourseComment" style="resize:none; z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background-color: rgb(242,242,242) !important;" placeholder="상세평가를 적어주세요" data=""></textarea>
 					  </div>
 					  
 					</div>
@@ -173,7 +169,7 @@
 			</div>
 			
 		</div>
-		<center><button  class="btn" style="width:150px; height:30px;margin:30 0 30 0; border-radius: 30px; background-color:rgb(92,154,114);" value="완료">완료</button></center>
+		<center><button  class="btn" style="width:100%; height:70px; font-size: 30px; margin:30 0 30 0; border-radius: 30px; background-color:rgb(153,204,187);" value="완료">완료</button></center>
 	</div>
 
 </form>

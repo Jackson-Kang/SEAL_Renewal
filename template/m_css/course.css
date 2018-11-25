@@ -1,15 +1,16 @@
 .m-course-container{
-	padding:30 40 30 40;
+	padding:30 30 30 30;
 }
 .m-course-container > .top{
 	display:flex;
 	margin-bottom:25px;
 }
 
-.m-course-container > .top > p{
+.m-course-container > .top > div{
 	margin-right : 20px;
-	font-size:50px;
+	font-size:40px;
 	font-weight:bold;
+	line-height: 50px;
 }
 .m-course-containter > .top > p:second{
 	font-size:40px;
@@ -20,16 +21,19 @@
 	border-radius: 20px;
 	display:flex;
 
-	padding:30 50 30 50;
+	padding:30 30 30 30;
 }
 .exam-method{
 	margin-right:20px;
 	font-size:20px;
+	padding:5 5 5 5;
 }
 .course-method{
 	margin-right:20px;
 	font-size:20px;
+	padding:5 5 5 5;
 }
+
 
 .m-single-course-container{
 		padding:30 40 30 40;
@@ -63,10 +67,18 @@
 }
 
 .method-active{
-	background-color:white;
+	background-color:rgb(153,204,187);
+	padding:5 5 5 5;
+	color:white;
 }
 .data-comment > p{
 	margin-top:10px;
 	margin-bottom:10px;
 	font-size:20px;
+}
+.easy-autocomplete{
+	display:flex;
+	width:100% !important;
+	justify-content: center;
+
 }

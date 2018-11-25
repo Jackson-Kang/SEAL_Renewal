@@ -56,12 +56,12 @@
 						<p>시험방식</p>
 					</div>
 					<div style="display:flex">
-					{% if Board.What_Answer|calculateData:100 == 1 %}
+					{% if Board.What_Answer|calculateData:1000 == 1 %}
 						<p class="exam-method method-active">단답형</p>
 					{% else %}
 						<p class="exam-method">단답형</p>
 					{%endif%}
-					{% if Board.What_Answer|calculateData:1000 == 1 %}
+					{% if Board.What_Answer|calculateData:100 == 1 %}
 						<p class="exam-method method-active">서술형</p>
 					{%else%}
 						<p class="exam-method">서술형</p>
@@ -72,7 +72,7 @@
 					{%else%}
 						<p class="exam-method">혼합형</p>
 					{%endif%}
-					{% if Board.What_Answer|calculateData:1 == 1 %}
+					{% if Board.What_Answer|calculateData:2 == 1 %}
 						<p class="exam-method method-active" >해당없음</p>
 					
 					{%else%}
@@ -86,17 +86,17 @@
 					</div>
 					<div style="display:flex; ">
 
-					{% if Board.Course_Answer|calculateData:10 == 1%}
+					{% if Board.Course_Answer|calculateData:100 == 1%}
 						<p class="exam-method method-active">PPT</p>
 					{%else%}
 						<p class="exam-method">PPT</p>
 					{%endif%}
-					{% if Board.Course_Answer|calculateData:100 == 1%}
+					{% if Board.Course_Answer|calculateData:10 == 1%}
 						<p class="exam-method method-active">교재</p>
 					{%else%}
 						<p class="exam-method">교재</p>
 					{%endif%}
-					{% if Board.Course_Answer|calculateData:1 == 1%}
+					{% if Board.Course_Answer|calculateData:2 == 1 %}
 						<p class="exam-method method-active">실습</p>
 					{%else%}
 						<p class="exam-method">실습</p>

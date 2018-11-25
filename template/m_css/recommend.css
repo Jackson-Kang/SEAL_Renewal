@@ -1,0 +1,120 @@
+
+	div.stars {
+	  
+	  display: flex;
+}
+
+input.star { display: none; }
+
+label.star {
+  float: right;
+  padding: 10px;
+  font-size: 50px;
+  color: #444;
+  transition: all .2s;
+  background: url(/static/assets/icon/star.png) 0 -40px;
+
+}
+.level-diff,.homework-count, .star{
+	cursor:pointer;
+}
+
+.rate {
+ 
+  float: left;
+  height: 60px;
+  padding: 0 10px;
+}
+
+.rate:not(:checked) > input {
+  position: absolute;
+  top: -9999px;
+}
+.rate >label{
+	margin-right:30px;
+}
+.rate:not(:checked) > label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 50px;
+  color: #ccc;
+  height:60px;
+  padding-top:5px;
+}
+
+.rate:not(:checked) > label:before { content: '★ '; }
+
+.rate > input:checked ~ label { color: #ffc700; }
+
+.rate:not(:checked) > label:hover, .rate:not(:checked) > label:hover ~ label { color: #deb217; }
+
+.rate > input:checked + label:hover, .rate > input:checked + label:hover ~ label, .rate > input:checked ~ label:hover, .rate > input:checked ~ label:hover ~ label, .rate > label:hover ~ input:checked ~ label { color: #c59b08; }
+
+.normal-grade2{
+	color:rgb(194, 194, 194);
+    border-radius: 50%;
+    border :3px solid rgb(194, 194, 194);
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size:20px;
+}
+
+.top-grade2{
+	color:rgb(207, 21, 58);
+    border-radius: 50%;
+    border :3px solid rgb(207, 21, 58);
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size:20px;
+}
+.middle-grade2{
+	color:rgb(245,194,66);
+    border-radius: 50%;
+    border :3px solid rgb(245,194,66);
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+font-size:20px;
+}
+.bottom-grade2{
+	 color:rgb(0,145,90);
+    border-radius: 50%;
+    border :3px solid rgb(0,145,90);
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+font-size:20px;
+}
+.exam-method{
+	padding : 5 5 5 5;
+	width:85px;
+	text-align: center;
+}
+.course-method{
+	padding : 5 5 5 5;
+	width:85px;
+	text-align: center;
+}
+
+.method-active{
+	background-color:rgb(153,204,187); 
+	color:white;
+	text-align:center;
+}

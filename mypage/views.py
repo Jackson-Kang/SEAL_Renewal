@@ -76,8 +76,14 @@ class MyCourseUpdateRedirectView(LoginRequiredMixin,TemplateView):
 	           'SemesterData':SemesterList,
 	           #'TotalCountBoard':TotalEvalutionCount()
 				}
+		flavour = request.flavour
 		
-		return render(request, 'html/updateform.html',dic)
+		if flavour == "mobile":
+			template_name = "m_html/updateform.html"
+		else:
+			template_name="html/updateform.html"
+		
+		return render(request, template_name,dic)
 		
 
 class MyCourseUpdateView(LoginRequiredMixin,TemplateView):
@@ -132,20 +138,20 @@ class MyCourseUpdateView(LoginRequiredMixin,TemplateView):
 		total_new_paper_value=0
 		total_new_course_value=0
 
-		for new_paper_item in postdata['paper_value']:
+		for new_paper_item in postdata['paper_value[]']:
 			total_new_paper_value += int(new_paper_item)
-		for new_course_item in postdata['course_value']:
+		for new_course_item in postdata['course_value[]']:
 			total_new_course_value += int(new_course_item)
 
 	
-		UpdateCourseEval.Homework =postdata['homework-count']
-		UpdateCourseEval.Level_Difficulty =postdata['level-diff']
-		UpdateCourseEval.StarPoint =postdata['StarValue']
+		UpdateCourseEval.Homework =int(postdata['homework-count'])
+		UpdateCourseEval.Level_Difficulty =int(postdata['level-diff'])
+		UpdateCourseEval.StarPoint = float(postdata['StarValue'])
 		
 
 		UpdateCourseEval.What_Answer = total_new_paper_value
 		UpdateCourseEval.Course_Answer = total_new_course_value
-		UpdateCourseEval.Who_Answer = new_Who
+		
 		UpdateCourseEval.CourseComment = postdata['CourseComment']
 		
 		if UpdateCourseEval.What_Answer-1000 >= 0:

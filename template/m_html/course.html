@@ -13,7 +13,7 @@
 {% block content %}  
 <div class="m-course-container">
 	<div class="top">
-		<p>{{CourseBoard.Course.CourseName}}</p><p>{{CourseBoard.Course.Code}}</p><p>{{CourseBoard.Course.Professor}}</p>
+		<div>{{CourseBoard.Course.CourseName}}</div><div>{{CourseBoard.Course.Code}}</div><div>{{CourseBoard.Course.Professor}}</div>
 	</div>
 	<div class="content">
 		<div style="text-align: center; margin-right:30px;" >
@@ -100,7 +100,7 @@
 		</div>	
 	</div>
 </div>
-	<div>
+	<div style="padding : 0 40 0 40">
 		<p style="margin-top:10px; width:100%; font-size:20px; text-align: right; color:green;">총 {{CourseBoard.Total_Count}}개 평가</p>
 	</div>
 	
@@ -219,6 +219,6 @@
 	{%endif%}
 	</div>
 	
-	<div style="width:97%;align-items: center; position:fixed; bottom:0px; left:0px; margin-left:20px; margin-right:20px; display:flex; justify-content: center; height:50px; font-size:30px; border-radius: 30px; border:1px solid green;"><a style=" color:green;" href="/Recommend">강의 평가하러가기</a></div>
+	<div style="width:97%;align-items: center; position:fixed; bottom:0px; left:0px; margin-left:20px; margin-right:20px; display:flex; justify-content: center; height:50px; font-size:30px; border-radius: 30px; border:1px solid rgb(153,204,187); background-color:rgb(153,204,187);"><a style=" color:white;" href="/Recommend">강의 평가하러가기</a></div>
 
 {% endblock %}

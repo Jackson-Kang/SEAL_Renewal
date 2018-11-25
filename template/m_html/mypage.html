@@ -15,7 +15,9 @@
 
   color: black;
 }
-
+.data-comment >p {
+	font-size:17px;
+}
 .arrow_box:after {
   position: absolute;
   bottom: 100%;
@@ -116,11 +118,12 @@
 .exam-method, .course-method
 {
 	padding:10px;
+
 }
 .method-active
 {
-	background-color:rgb(159,95,95);
-	color:white;
+	background-color:rgb(153,204,187);
+	color:white
 }
 .single-course-evaluation-container
 {
@@ -230,6 +233,12 @@ display:flex;
 padding:0 10 0 10;
 align-self: center;
 }
+.easy-autocomplete{
+	display:flex;
+	width:100% !important;
+	justify-content: center;
+
+}
 </style>
 <script>
 	$(document).ready(function(){
@@ -323,13 +332,13 @@ align-self: center;
 				<div class="m-body-first">
 				
 					<div style="width:20%;">
-						<p style="font-size:40px; font-weight: bold;">닉네임</p>
+						<p style="font-size:40px; font-weight: bold; color:rgb(153,204,187);">닉네임</p>
 					</div>
 					<div style="width:33%;">
 					<p style="width:100%;"><input style=" width:100%; padding-right:20px;border:none; text-align: center; font-size:25px; border-bottom:1px solid gray; background-color:rgb(240,240,240); color:rgb(208,231,225);" type="text" id="Nickname" name="nickname" value="{{user.profile.UserName}}"></p>
 					</div>
 					<div style="width:33%;">
-						<button class="btn" type="button" style="background-color:gray; color:white; margin-left:10px; border-radius: 10px;" >수정</button>
+						<button class="btn" id="changebtn4" type="button" style="background-color:gray; color:white; margin-left:10px; border-radius: 10px;" >수정</button>
 					</div>
 				</div>
 			</form>
@@ -388,13 +397,13 @@ align-self: center;
 								<p style="font-size:30px; margin-right:10px;">시험방식</p>
 								{% if Board.What_Answer|calculateData:100 == 1 %}
 							
-							<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">단답형</p>
+							<p style="font-size:25px; text-align:center; width:120px;" class="exam-method method-active">단답형</p>
 							{%elif Board.What_Answer|calculateData:1000 %}
-							<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">서술형</p>
+							<p style="font-size:25px; text-align:center; width:120px;" class="exam-method method-active">서술형</p>
 							{% elif Board.What_Answer|calculateData:10 == 1 %}
-							<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">혼합형</p>
+							<p style="font-size:25px; text-align:center; width:120px;" class="exam-method method-active">혼합형</p>
 							{% elif Board.What_Answer|calculateData:1 == 1 %}
-							<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">해당없음</p>
+							<p style="font-size:25px; text-align:center; width:120px;" class="exam-method method-active">해당없음</p>
 							{%endif%}
 							</div>
 						</div>
@@ -434,11 +443,11 @@ align-self: center;
 							{% if Board.Course_Answer|calculateData:10 == 1%}
 								<p style="font-size:25px; text-align:center; width:120px;"  class="exam-method method-active">PPT</p>
 							{% elif Board.Course_Answer|calculateData:100 == 1%}
-								<p style="font-size:25px; text-align:center; width:120px;""  class="exam-method method-active">교제</p>
+								<p style="font-size:25px; text-align:center; width:120px;"  class="exam-method method-active">교제</p>
 							{% elif Board.Course_Answer|calculateData:1 == 1%}
-								<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">실습</p>
+								<p style="font-size:25px; text-align:center; width:120px;" class="exam-method method-active">실습</p>
 							{% else %}
-								<p style="font-size:25px; text-align:center; width:120px;"" class="exam-method method-active">해당없음</p>
+								<p style="font-size:25px; text-align:center; width:120px;" class="exam-method method-active">해당없음</p>
 							
 							{%endif%}	
 							</div>
@@ -455,9 +464,9 @@ align-self: center;
 						<div style="display:flex; flex-direction: column;">
 							<div class="hidden-comment">
 								<div>
-									<p >상세평가</p><div class="ui divider"></div>
+									<p style="font-size:20px;">상세평가</p><div class="ui divider"></div>
 								</div>
-								<div class="data-comment">{{Board.CourseComment|linebreaks}}</div>
+								<div class="data-comment" >{{Board.CourseComment|linebreaks}}</div>
 							</div>
 							<div class="open-comment"><center><i style="font-size:30px;" class="fas fa-chevron-down"></i></center></div>
 						</div>

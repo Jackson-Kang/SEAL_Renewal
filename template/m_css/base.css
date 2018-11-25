@@ -164,9 +164,9 @@ sans-serif;
 }
 
 .top-grade{
-	color:red;
+	color:rgb(207, 21, 58);
     border-radius: 50%;
-    border :3px solid red;
+    border :3px solid rgb(207, 21, 58);
     width: 50px;
     height: 50px;
     text-align: center;
@@ -176,9 +176,9 @@ sans-serif;
     font-size:20px;
 }
 .middle-grade{
-	color:yellow;
+	color:rgb(245,194,66);
     border-radius: 50%;
-    border :3px solid yellow;
+    border :3px solid rgb(245,194,66);
     width: 50px;
     height: 50px;
     text-align: center;
@@ -188,9 +188,9 @@ sans-serif;
 font-size:20px;
 }
 .bottom-grade{
-	 color:green;
+	 color:rgb(0,145,90);
     border-radius: 50%;
-    border :3px solid green;
+    border :3px solid rgb(0,145,90);
     width: 50px;
     height: 50px;
     text-align: center;

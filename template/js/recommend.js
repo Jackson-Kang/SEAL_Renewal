@@ -92,6 +92,7 @@ $(document).ready(function()
 		{
 			event.stopPropagation();
 			$(".exam-method").removeClass("method-active");
+			$("[name='paper_value[]']").val("0");
 			if($(this).hasClass("method-active"))
 			{
 				$(this).removeClass('method-active');

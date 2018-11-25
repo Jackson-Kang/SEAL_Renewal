@@ -1,4 +1,5 @@
  $(document).ready(function(){
+ 	
  	var urldata = location.href;
     var lastIndex = urldata.lastIndexOf('/');
     var cURL = urldata.substring(lastIndex);

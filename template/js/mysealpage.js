@@ -9,7 +9,7 @@ $(document).ready(function()
 
         
         $.ajax({ 
-              url : "/MyPage/MyDeleteCourse/",
+              url : "/MyPage/DeleteCourse/",
               data : {
                 'csrfmiddlewaretoken':$("[name=csrfmiddlewaretoken]").val(),
                   'id':$(this).parent().attr("id")

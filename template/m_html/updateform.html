@@ -1,0 +1,181 @@
+{% extends "m_html/base.html" %}
+
+{% block head %}
+{% load static from staticfiles %}
+{% load app_filter %}
+ <link rel="stylesheet" type="text/css" href="{% static 'm_css/recommend.css' %}" />
+ <script type="text/javascript" src="{% static 'm_js/recommend.js' %}"></script>
+ <title>SEAL</title>
+
+ <script>
+	
+ </script>
+{%endblock%}
+
+{%block content %}
+
+<form id="RecommendForm" method ="POST" enctype="multipart/form-data" action="/MyPage/UpdateCourse/">
+{%csrf_token%}
+<div style="margin:15 30 15 30;" class="recommend-evaluation-container">
+	<div style="margin-top:50px;	" class="recommend-nav-container">
+
+			<span style="font-size:50px;">강의 평가 수정</span>
+			
+	</div>
+		<div style="margin-top:30px; margin-bottom:30px; display:flex;" class= "c-e-hedaer">
+			<div style="width:60%; height:50px;  display:flex;" class="c-e-search-box">
+				<input style="height:50px; width:100%; font-size:25px; font-weight:bold; background-color: rgb(242,242,242);" id ='recommend-course-search' type="text" placeholder="수업검색" value="{{CourseBoard.Course.CourseName}}">
+				
+				<div class="search-item-list"></div>
+				<div class="field" style="width:100px;">
+				<input type="hidden" id="Professor" name="Professor" value="{{CourseBoard.Course.Professor}}">
+				</div>
+				<input type="hidden" id="CourseName" name="CourseName" value="{{CourseBoard.Course.CourseName}}">
+				<input type="hidden" id="Code" name="Code" value="{{CourseBoard.Course.Code}}">
+			</div>
+			<div style="width:40%;">
+				<div style="padding:0px; " class="select-box"> 
+			      	<div class="ui small form">
+			            <div class="ui selection dropdown all_course" style="height:50px; display:flex; align-items: center;">
+			              <div style="font-size:25px;" class="default text">{{CourseBoard.Course.Semester}}</div>
+			              <i style="top:25%; font-size:20px;" class="dropdown icon"></i>
+			              
+			              <div class="menu">
+			              
+			              </div>
+			            </div>
+			      	</div>
+		    	</div>
+		    	<div class="field" style="width:100px; margin:0px;">
+			        <input id="Semester"  name="Semester" type="hidden" value="{{CourseBoard.Course.Semester}}">
+				</div>
+			</div>
+
+		</div>
+		<div class= "c-e-body">
+			<div class="body-content">
+				<div style="background-color:rgb(242,242,242); margin-top:15px; margin-bottom:30px; border-radius: 10px; padding:15 0 15 0;"  >
+					<p style="padding-left:15px; font-size:30px;" class="content-name">평점</p>
+					<div style="display:flex; justify-content: center;">
+						<div class="rate">
+						  <input type="radio" id="star5" name="StarValue" value="5" {%if CourseBoard.StarPoint == 5	 %} checked {%endif%} />
+						  <label for="star5" title="text">5 stars</label>
+						  <input type="radio" id="star4" name="StarValue" value="4" {%if CourseBoard.StarPoint == 4 %} checked {%endif%}/>
+						  <label for="star4" title="text">4 stars</label>
+						  <input type="radio" id="star3" name="StarValue" value="3" {%if CourseBoard.StarPoint == 3 %} checked {%endif%}/>
+						  <label for="star3" title="text">3 stars</label>
+						  <input type="radio" id="star2" name="StarValue" value="2" {%if CourseBoard.StarPoint == 2 %} checked {%endif%}/>
+						  <label for="star2" title="text">2 stars</label>
+						  <input type="radio" id="star1" name="StarValue" value="1" {%if CourseBoard.StarPoint == 1 %} checked {%endif%}/>
+						  <label for="star1" title="text">1 star</label>
+						</div>
+						
+					</div>
+				</div>
+				<div style="display:flex; justify-content: space-between; ">
+					
+					<div style="width:48%; background-color:rgb(242,242,242); display:flex; flex-direction: column; border-radius: 10px; margin">
+						<p class="content-name" style="margin-left:15px; margin-top:20px;font-size:25px;">과제량</p>
+						<div style="margin-top:10px; width : 100%; align-self:center; margin-bottom:15px; display:flex; justify-content: center;">
+							<span style = "margin-left:10%; margin-right:10%; font-size:35px;" class="normal-grade2 {%if CourseBoard.Homework == 9 %} top-grade2 {%endif%} homework-count">상</span>
+							<span style = "margin-right:10%;font-size:35px;" class="normal-grade2 {%if CourseBoard.Homework == 5 %} middle-grade2 {%endif%} homework-count">중</span>
+							<span style = "margin-right:10%; font-size:35px;" class="normal-grade2 {%if CourseBoard.Homework == 1 %} bottom-grade2 {%endif%} homework-count" >하</span>
+							<input name="homework-count" type="hidden"  value="{{CourseBoard.Homework}}">
+						</div>
+					
+					</div>
+					<div style="width:48%; background-color:rgb(242,242,242); display:flex; flex-direction: column; border-radius: 10px;">
+						<p style="margin-left:15px; margin-top:20px; padding-right:15px; font-size:25px;">난이도</p>
+						<div style="margin-top:10px; width:100%; align-self:center; margin-bottom:20px; display:flex; justify-content: center;"  class=" img-top" >
+							<span style = "margin-left:10%; margin-right:10%; font-size:35px; " class=" {%if CourseBoard.Level_Difficulty == 9%} top-grade2 {%endif%} normal-grade2 level-diff">상</span>
+							<span style = "margin-right:10%; font-size:35px;" class=" {%if CourseBoard.Level_Difficulty == 5 %} middle-grade2 {%endif%}normal-grade2 level-diff">중</span>
+							<span style = "margin-right:10%; font-size:35px;" class="{%if CourseBoard.Level_Difficulty == 1 %} bottom-grade2 {%endif%} normal-grade2 level-diff">하</span>
+							<input name="level-diff" type="hidden"  value="{{CourseBoard.Level_Difficulty}}">
+					
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="body-content" style="display:flex; margin-top:15px;margin-bottom:15px; background-color:rgb(242,242,242); padding:20px; border-radius: 10px;">
+				
+				<div style="width:60%;" >
+					<div class="body-table-name" style="margin-bottom:15px;"  >
+						<p class="content-name" style="font-size:25px;">시험방식</p>
+					</div>
+					<div style="display:flex;"class="body-table-content" >
+						
+						<p class="exam-method {% if CourseBoard.What_Answer|calculateData:100 == 1%} method-active {%endif%}" style="font-size :20px; " value="1000">단답형</p>
+						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="{% if CourseBoard.What_Answer|calculateData:100 == 1%}1000{%else%}0{%endif%}" >
+						<p class="exam-method {% if CourseBoard.What_Answer|calculateData:1000 == 1%} method-active {%endif%}" style="font-size :20px; "  value="100">서술형</p>
+						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="{% if CourseBoard.What_Answer|calculateData:1000 == 1%}100{%else%}0{%endif%}">
+						<p class="exam-method {% if CourseBoard.What_Answer|calculateData:10 == 1 %} method-active {%endif%}" style="font-size :20px; "  value="10">혼합형</p>
+						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="{% if CourseBoard.What_Answer|calculateData:10 == 1%}1{%else%}0{%endif%}">
+						<p class="exam-method {% if CourseBoard.What_Answer|calculateData:1 == 1%} method-active {%endif%}" style="font-size :20px; "  value="1">해당없음</p>
+						<input type="hidden" id="paper_value" name ="paper_value[]" class="paper_value" value ="{% if CourseBoard.What_Answer|calculateData:1 == 1%}1{%else%}0{%endif%}">
+						
+					</div>
+				</div>
+		`	<div 	>
+					<div class="body-table-name" style="margin-bottom:15px;">
+						<p class="content-name" style="font-size:25px;">수업방식</p>
+					</div>
+					<div style="display:flex;" class="body-table-content">
+						<p class="course-method {% if CourseBoard.Course_Answer|calculateData:10 == 1%} method-active {%endif%}" style="font-size :20px;"  value="100">PPT</p>
+						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="{% if CourseBoard.Course_Answer|calculateData:10 == 1%}100{%else%}0{%endif%}">
+						<p class="course-method {% if CourseBoard.Course_Answer|calculateData:100 == 1%} method-active {%endif%}" style="font-size :20px;"  value="10">교재</p>
+						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="{% if CourseBoard.Course_Answer|calculateData:100 == 1%}10{%else%}0{%endif%}">
+						<p class="course-method {% if CourseBoard.Course_Answer|calculateData:1 == 1%} method-active {%endif%}" style="font-size :20px; "  value="1">실습</p>
+						<input type="hidden" id="course_value" name = "course_value[]" class="course_value" value ="{% if CourseBoard.Course_Answer|calculateData:1 == 1%}1{%else%}0{%endif%}">
+					</div>
+				</div>
+			</div>
+			<!--
+			<div class="body-content" style="display:flex; align-items: center;">
+				<input  type="hidden" name="MAX_FILE_SIZE" value="30000" />
+				<div style="width:50px;">
+					<p class="content-name">첨부</p>
+					<input style="display:none;" type="file" id="input-file" name="upload_file[]" multiple>
+				</div>
+				<button type="button" class="btn" style="font-size:8px; width:80px;  height:30px;"
+				 id="file-input">찾아보기</button>
+				<div class="jubo" style="width:70%;">
+					
+				</div>
+			</div>-->
+		</div>
+
+		<div class= "c-e-footer" style="display:flex;flex-direction: column; margin:30 0 0 0;">
+			<div style="background-color:rgb(153,204,187); border-radius: 10px; padding:20 20 20 20;">
+				<div style="padding:0 0 10 0; display:flex; align-items: center; ">
+					<p style="font-size:20px; font-weight:bold; margin:0px;">상세평가</p>
+					<div class="ui divider" style="width:90%;"></div>
+				</div>
+				<div class="text-area-information" style=" 	margin:10 0 10 0;">
+					<span>1. 교수님의 강의 방식</span><br>
+					<span>2. 과제, 퀴즈, 시험, 팀 프로젝트 빈도</span><br>
+					<span>3. 본인이 체감하는 난이도</span><br>
+					<span>4. 추천하고 싶은 대상 (ex. 전공 새내기, 막학기, 군 복학생)</span><br>
+					<span>5. 그 외의 기타 의견 자유롭게 작성해 주세요:)</span><br>
+				</div>
+			</div>
+			<div>
+				
+				<div class="text-area" style="margin-top:30px;"> 
+					<div class="ui form">
+					  <div class="field">
+					    <textarea name="CourseComment" style="resize:none; z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background-color: rgb(242,242,242) !important;" placeholder="상세평가를 적어주세요" data="{{CourseBoard.CourseComment|linebreaks}}">
+					    	
+					    </textarea>
+					  </div>
+					  
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<center><button  class="btn" style="width:100%; height:70px; font-size: 30px; margin:30 0 30 0; border-radius: 30px; background-color:rgb(153,204,187);" value="완료">완료</button></center>
+	</div>
+
+</form>
+{%endblock%}
